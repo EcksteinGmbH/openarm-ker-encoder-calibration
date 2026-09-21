@@ -11,6 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# MODIFICATION NOTICE: modified from upstream OpenArm by Eckstein GmbH, 2026:
+# added .omc/ (agent tooling state, never part of the source).
 
 .pio
 .vscode/
@@ -18,3 +21,4 @@
 .venv/
 __pycache__/
 *.pyc
+.omc/

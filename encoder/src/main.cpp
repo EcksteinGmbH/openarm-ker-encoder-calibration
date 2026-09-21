@@ -11,19 +11,35 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+// ---------------------------------------------------------------------------
+// MODIFICATION NOTICE
+// Modified from upstream OpenArm (enactic/openarm_ker_firmware @ ffd2aa2) by
+// Eckstein GmbH, 2026, for the calibrated-encoder fork. The SSC pins, fast-I/O
+// wrappers and bit-bang primitives were moved unchanged to ker_ssc.h; the
+// AVAL-only read was replaced by ker_sensor.cpp's block transaction; the
+// build-default ID became 31; and ker_init / ker_read_due / ker_read_angle /
+// ker_on_frame were added. Each edit is marked "fork" below. The CMD=1 and
+// CMD=2 reply paths are untouched. See docs/protocol-spec.md section 11.1 and
+// CHANGELOG.md.
+// ---------------------------------------------------------------------------
 
 #include <Arduino.h>
 #include <math.h>
+
+// --- calibrated-encoder fork ---------------------------------------------
+// The SSC primitives below were moved to ker_ssc.h unchanged; everything else
+// the fork adds lives behind ker_init / ker_read_due / ker_read_angle /
+// ker_on_frame. See docs/protocol-spec.md section 11.1 and CHANGELOG.md.
+#include "ker_ssc.h"
+#include "ker_cmd3.h"
 
 // #define DEVICE_ID 1// Device ID (set in range 0-31)
 
 // ================================
 // pin assign
 // ================================
-#define CLK  16
-#define DATA_PIN 14
-#define CS   13
-
+// CLK, DATA_PIN and CS moved to ker_ssc.h (fork)
 #define LED 9
 
 #define TX 7
@@ -35,37 +51,18 @@
 #define CHAIN_MAX_ID 16             // Last ID in chain (wraps back to ID=1 after this)
 
 #ifndef DEVICE_ID
-#define DEVICE_ID 1 // Default value
+#define DEVICE_ID 31 // Default value (fork: 31 = unprovisioned, spec section 5.4)
 #endif
 
 // ================================
-// fast I/O wrapper
-// Assumes digitalWriteFast / digitalReadFast are available in megaTinyCore
-// Falls back to standard functions if undefined in the environment
+// fast I/O wrapper moved to ker_ssc.h (fork)
 // ================================
-#ifndef digitalWriteFast
-  #define digitalWriteFast(pin, val) digitalWrite((pin), (val))
-#endif
-
-#ifndef digitalReadFast
-  #define digitalReadFast(pin) digitalRead((pin))
-#endif
-
-#ifndef pinModeFast
-  #define pinModeFast(pin, mode) pinMode((pin), (mode))
-#endif
 
 // ================================
 // TLE5012B SSC command
-// RW (Bit 15): 1 (Read)
-// Lock (Bit 14-11): 0000B (default value for access to addresses 00H-04H)
-// UPD (Bit 10): normally 0 (read latest value)
-// ADDR (Bit 9-4): 000010B (AVAL register address 02H)
-// ND (Bit 3-0): 0001B (read 1 word)
+// The fork reads STAT, ACSTAT, AVAL and the safety word in one transaction
+// instead of AVAL alone; the command word lives in ker_sensor.cpp.
 // ================================
-
-static const uint16_t CMD_READ_AVAL_FAST = 0x8021;
-// static const uint16_t CMD_READ_AVAL_FAST = 0x8200;
 
 
 
@@ -214,70 +211,9 @@ bool receivePacket21(uint8_t &ID, uint8_t &CMD, uint32_t &data) {
 }
 
 // ================================
-// TLE5012B SSC read functions
+// TLE5012B SSC read functions moved to ker_ssc.h (fork); the AVAL-only
+// transaction they served is replaced by ker_sensor.cpp's block read.
 // ================================
-
-// Tiny wait (removed: eliminated unnecessary overhead)
-// static inline void tinyWait() {
-//   __asm__ __volatile__("nop\n\t""nop\n\t");
-// }
-
-static inline void clkLow()  { digitalWriteFast(CLK, LOW); }
-static inline void clkHigh() { digitalWriteFast(CLK, HIGH); }
-static inline void csLow()   { digitalWriteFast(CS, LOW); }
-static inline void csHigh()  { digitalWriteFast(CS, HIGH); }
-
-static inline void dataOut() { pinModeFast(DATA_PIN, OUTPUT); }
-static inline void dataIn()  { pinModeFast(DATA_PIN, INPUT); }
-
-static inline void dataWrite(uint8_t v) {
-  digitalWriteFast(DATA_PIN, v ? HIGH : LOW);
-}
-
-static inline uint8_t dataRead() {
-  return digitalReadFast(DATA_PIN) ? 1 : 0;
-}
-
-// SSC:
-// Sensor outputs data on rising edge
-// Master reads on falling edge
-// Optimized: pinMode calls moved outside bit loop
-
-static inline void sscWrite16(uint16_t v) {
-  dataOut();  // Set OUTPUT once at the start
-  for (int8_t i = 15; i >= 0; --i) {
-    dataWrite((v >> i) & 0x01);
-    clkHigh();
-    clkLow();
-  }
-}
-
-static inline uint16_t sscRead16() {
-  dataIn();  // Set INPUT once at the start
-  uint16_t v = 0;
-  for (int8_t i = 15; i >= 0; --i) {
-    v <<= 1;
-    clkHigh();
-    clkLow();
-    v |= dataRead();
-  }
-  return v;
-}
-
-static inline uint16_t tleReadAvalRawFast() {
-  csLow();
-
-  sscWrite16(CMD_READ_AVAL_FAST);
-
-  // DATA line release
-  dataIn();
-
-  uint16_t raw = sscRead16();
-
-  csHigh();
-
-  return raw;
-}
 
 // Treat as 15-bit signed value
 static inline int16_t signExtend15(uint16_t raw) {
@@ -312,6 +248,12 @@ void setup() {
   // TLE5012B SSC init
   csHigh();
   clkLow();
+
+  // Fork: USERROW identity and calibration, sensor configuration lock, first
+  // valid reading. Nothing is answered until this returns (spec section 6.2).
+  // device_id is passed by address: a later COMMIT_CAL or SET_ID changes the
+  // module's ID without a reset, and the dispatch above must follow it.
+  ker_init(&device_id, DEVICE_ID);
 }
 
 void loop() {
@@ -351,7 +293,9 @@ void loop() {
       // }
     }
 
-
+    // Fork: one hook for every received frame, after the reply is already on the
+    // wire. Owns the read gate, arm_seen, factory mode and all of CMD=3.
+    ker_on_frame(r_id, r_cmd, r_data);
   }
 
   // ========================================
@@ -359,13 +303,11 @@ void loop() {
   //    Condition a: SSC_INTERVAL_MS elapsed since last read
   //    Condition b: immediately after RS485 send (do_ssc_read flag)
   // ========================================
-  if (do_ssc_read || (millis() - last_ssc_time >= SSC_INTERVAL_MS)) {
-    uint16_t raw = tleReadAvalRawFast();
-    // Scale 15-bit value (0-0x7FFF) to 21-bit (0-0x1FFFFF) via bit replication
-    //   Place upper 15 bits at [20:6] with <<6, fill lower 6 bits with upper 6 bits (>>9)
-    //   Full scale: 0x0000->0x000000, 0x7FFF->0x1FFFFF
-    uint16_t raw15 = raw & 0x7FFF;
-    latest_angle_21bit = ((uint32_t)raw15 << 6) | (raw15 >> 9);
+  //    Condition c (fork): the averaged-sampling engine wants its next reading
+  if (do_ssc_read || ker_read_due() || (millis() - last_ssc_time >= SSC_INTERVAL_MS)) {
+    // Fork: block transaction, health evaluation and compensation. An
+    // uncalibrated module returns exactly upstream's bit-replicated mapping.
+    latest_angle_21bit = ker_read_angle();
     last_ssc_time = millis();
     do_ssc_read = false;
   }
