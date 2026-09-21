@@ -1,0 +1,8 @@
+- CRC-16/CCITT-FALSE against published vectors
+- a virgin page is rejected, and reported as virgin
+- a well-formed page is accepted and decoded
+- every check of spec section 5.2, in its order
+- N_HARM = 0 is a valid identity page with no compensation
+- re-identifying a running page keeps its coefficients (SET_ID)
+- USERROW commit, read-back and the failure paths of spec section 4.9
+test_cal: 70 checks, 0 failures

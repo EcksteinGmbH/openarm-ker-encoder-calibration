@@ -1,0 +1,22 @@
+Processing ATtiny1616 (platform: atmelmegaavr; board: ATtiny1616; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+ker: build stamped b273 (dirty)
+CONFIGURATION: https://docs.platformio.org/page/boards/atmelmegaavr/ATtiny1616.html
+PLATFORM: Atmel megaAVR (1.10.0) > ATtiny1616
+HARDWARE: ATTINY1616 20MHz, 2KB RAM, 16KB Flash
+PACKAGES: 
+ - framework-arduino-megaavr-megatinycore @ 2.6.11 
+ - tool-avrdude @ 1.80100.0 (8.1.0) 
+ - toolchain-atmelavr @ 3.70300.220127 (7.3.0)
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 16 compatible libraries
+Scanning dependencies...
+No dependencies
+Building in release mode
+Checking size .pio/build/ATtiny1616/firmware.elf
+Advanced Memory Usage is available via "PlatformIO Home > Project Inspect"
+RAM:   [==        ]  22.4% (used 459 bytes from 2048 bytes)
+Flash: [======    ]  62.5% (used 10243 bytes from 16384 bytes)
+========================= [SUCCESS] Took 0.23 seconds =========================

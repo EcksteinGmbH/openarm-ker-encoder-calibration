@@ -1,0 +1,16 @@
+- uncalibrated path is upstream's mapping, bit for bit, all 32768 codes
+- n out of range is treated as uncalibrated, not as an overrun
+- every calibrated output is a multiple of 8 LSB (D22)
+- output always inside 21 bits, including across the seam
+- sine table against double, whole 16-bit angle range
+  worst sine error: 1.459 of 32767 (4.45e-05 of full scale)
+- constructed worst cases of spec section 7.5
+  N=1:  6.419 LSB = 0.001102 deg (recorded 6.419)
+  N=2:  8.859 LSB = 0.001521 deg (recorded 8.859)
+  N=3: 11.300 LSB = 0.001940 deg (recorded 11.300)
+  N=4: 13.701 LSB = 0.002352 deg (recorded 13.701)
+  N=5: 16.122 LSB = 0.002768 deg (recorded 16.122)
+  N=6: 18.561 LSB = 0.003186 deg (recorded 18.561)
+- realistic coefficient sets stay far inside the budget
+  realistic worst of 60 sets: 4.867 LSB = 0.000835 deg
+test_comp: 18 checks, 0 failures
