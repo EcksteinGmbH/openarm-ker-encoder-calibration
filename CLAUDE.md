@@ -45,7 +45,7 @@ an upstream PR:
 | `CLAUDE.md`, `.gitignore` | this fork's tooling |
 | `encoder/README.md` | the fork sections |
 | `encoder/CHANGELOG.md` | this fork's changelog |
-| `encoder/docs/**` | the specification, the evidence and 22 reviews — this fork's design record |
+| `encoder/docs/**` | the specification, the evidence and 20 review documents — this fork's design record |
 | `encoder/tools/`, `encoder/test/` | the station tool and the verification suite |
 
 **On GitHub, a new PR defaults its base to `enactic/openarm_ker_firmware`.** Check the base before

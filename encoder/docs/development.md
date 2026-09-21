@@ -53,12 +53,12 @@ none of it should be.
 |---|---|
 | `docs/protocol-spec.md` | the design. §12 is the decision log and the open questions |
 | `../CHANGELOG.md` | what was built, what it costs, every place the code departs from the spec |
-| `docs/compatibility-checklist.md` | 34 claims about not breaking an M5, each marked *desk* or *measured* |
+| `docs/compatibility-checklist.md` | 40 claims about not breaking an M5, each marked *desk* or *measured* |
 | `docs/bench-and-station.md` | how to build the bench and the calibration station, with diagrams |
 | `docs/timing-measurements.md` | the bench method and the empty results sheet |
 | `docs/station-reference-encoder.md` | the calibration station's reference chain and purchasing (Chinese) |
 | `docs/evidence/` | the reference implementation and every cited measurement, reproducible |
-| `docs/reviews/` | 22 review documents and their responses |
+| `docs/reviews/` | 13 review passes and their 7 responses |
 | `src/ker_*` | the firmware |
 | `tools/kercal/` | the host library and CLI |
 | `test/run_tests.sh` | everything verifiable without hardware |
