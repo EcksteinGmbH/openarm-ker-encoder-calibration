@@ -76,7 +76,7 @@ uncalibrated modules or forked calibrated modules behaves the same way at the M5
 | F2 | Fuses unchanged | `platformio.ini` fuse lines untouched; only `build_flags` and `extra_scripts` changed | ✅ *measured* — diff |
 | F3 | Apache-2.0 headers kept, modifications noted | every new file carries the licence and a MODIFICATION NOTICE; `main.cpp`'s header is untouched | ✅ *desk* |
 | F4 | The upstream build is still reproducible | `pio run` on upstream's `main.cpp` and `platformio.ini`: 2578 B flash, 179 B RAM | ✅ *measured* |
-| F5 | Flash and RAM margin | 6141 B flash (37.5 %) and 1589 B RAM (77.6 %) free | ✅ *measured* — `CHANGELOG.md` |
+| F5 | Flash and RAM margin | 6147 B flash (37.5 %) and 1589 B RAM (77.6 %) free | ✅ *measured* — `CHANGELOG.md` |
 | F6 | A module can be identified after the fact | `GET_FW_VER` carries the commit and a dirty flag, stamped by `tools/pio_version.py` | ✅ *desk* |
 
 ---

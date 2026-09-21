@@ -1450,14 +1450,16 @@ The station verifies the fit. Nothing verifies the joint angle unless it is meas
 row, because it was wrong by nearly a factor of two and that is worth remembering.)*
 
 Upstream baseline, *measured* with the project venv (PlatformIO 6.2.0, megaTinyCore 2.6.11, avr-gcc 7.3.0,
-`-Os -flto`), `-DDEVICE_ID=3`: RAM 179 / 2048 B (8.7 %), flash 2578 / 16384 B (15.7 %).
+`-Os -flto`), `-DDEVICE_ID=3`: RAM 179 / 2048 B (8.7 %), flash 2578 / 16384 B (15.7 %). The fork's
+figures are from a clean checkout; a dirty tree is a few bytes larger, because the build stamps a
+different commit hash and sets the dirty flag of `GET_FW_VER`.
 
 | | flash | RAM |
 |---|---|---|
 | upstream | 2578 B (15.7 %) | 179 B (8.7 %) |
-| **this fork, `-DDEVICE_ID=31`** | **10243 B (62.5 %)** | **459 B (22.4 %)** |
-| added | **+7665 B** | **+280 B** |
-| free | **6141 B (37.5 %)** | **1589 B (77.6 %)** |
+| **this fork, `-DDEVICE_ID=31`** | **10237 B (62.5 %)** | **459 B (22.4 %)** |
+| added | **+7659 B** | **+280 B** |
+| free | **6147 B (37.5 %)** | **1589 B (77.6 %)** |
 | *v6 estimated* | *≈ +4 KB, headroom "> 9 KB"* | *≈ +140 B* |
 
 Where it goes — per translation unit, compiled without LTO so the parts can be told apart; the sum exceeds

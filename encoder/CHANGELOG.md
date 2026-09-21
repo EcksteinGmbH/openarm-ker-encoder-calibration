@@ -70,8 +70,8 @@ averaged-sampling engine of §4.10 can pace its own readings 200 µs apart witho
 ### Other deviations from the spec, and open points
 
 - **§10's resource estimate was low.** It estimated ≈ 4 KB of flash and ≈ 140 B of RAM
-  added, and headroom "> 9 KB". Measured: **+7665 B flash, +280 B RAM**, headroom
-  **6141 B flash / 1589 B RAM**. The table below says where it went. The margin is still
+  added, and headroom "> 9 KB". Measured: **+7659 B flash, +280 B RAM**, headroom
+  **6147 B flash / 1589 B RAM**. The table below says where it went. The margin is still
   a third of the part, but §10 should be corrected rather than believed.
 - **The configuration lock is ≈ 576 SSC clocks, not ≈ 400** (§6.2): one 10-word read of
   MOD_1…TCO_Y, three single-register writes, one read-back of the same ten words, one STAT
@@ -119,14 +119,16 @@ averaged-sampling engine of §4.10 can pace its own readings 200 µs apart witho
 
 ### Resources — *measured*
 
-PlatformIO 6.2.0, megaTinyCore 2.6.11, avr-gcc 7.3.0, `-Os -flto`, `-DDEVICE_ID=31`.
+PlatformIO 6.2.0, megaTinyCore 2.6.11, avr-gcc 7.3.0, `-Os -flto`, `-DDEVICE_ID=31`, from a clean
+checkout. A build from a dirty tree is a few bytes larger: `tools/pio_version.py` stamps a different
+commit hash and sets the dirty flag.
 
 | | flash | RAM |
 |---|---|---|
 | upstream baseline | 2578 B (15.7 %) | 179 B (8.7 %) |
-| **this fork** | **10243 B (62.5 %)** | **459 B (22.4 %)** |
-| added | +7665 B | +280 B |
-| **free** | **6141 B (37.5 %)** | **1589 B (77.6 %)** |
+| **this fork** | **10237 B (62.5 %)** | **459 B (22.4 %)** |
+| added | +7659 B | +280 B |
+| **free** | **6147 B (37.5 %)** | **1589 B (77.6 %)** |
 
 Where it goes (per translation unit, compiled without LTO so the parts can be told apart;
 the sum is larger than the linked image because LTO then removes the overlap):
