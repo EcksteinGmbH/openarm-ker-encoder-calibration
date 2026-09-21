@@ -1,0 +1,6 @@
+spec row 4 (v6; clamp 3+2, drift 1 %, C2 10+5 differing 30 % per unit); 60 trials; arcsec
+as in ref_selfcal.py: SDE 8, exact 360/256 grid                  after med/max   7.9/ 12.6   repro med/max   2.9/  5.8   check med/max   9.8/ 23.7
+SDE 0, exact grid                                                after med/max   7.9/ 12.6   repro med/max   2.9/  5.8   check med/max   9.8/ 23.7
+SDE 80 (absurd), exact grid  -> still no effect = inert          after med/max   7.9/ 12.6   repro med/max   2.9/  5.8   check med/max   9.8/ 23.7
+SDE 8, stage position error 0.03 deg rms                         after med/max  13.9/ 17.6   repro med/max   2.8/  5.8   check med/max   9.3/ 23.8
+SDE 0, stage position error 0.03 deg rms (control)               after med/max   8.2/ 11.7   repro med/max   2.7/  5.7   check med/max   9.4/ 24.1

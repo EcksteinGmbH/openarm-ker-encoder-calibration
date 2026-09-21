@@ -1,0 +1,22 @@
+all arcsec, med/max; 200 stations per row; criteria repro <= 8.0, check <= 12.0
+--- R1: is the SDE and the above-H20 content effective? (GOOD station, seed 7)
+GOOD as in ref_selfcal.py (SDE 8, ref to H40, scatter 0.03)    after  14.4/ 18.8  H1-6   4.9/ 10.2  repro  3.1/ 5.9  check  3.8/ 8.1  pass both 100.0%  worst passing  18.8 /  10.2
+SDE 0                                                          after   8.4/ 12.8  H1-6   4.1/  9.4  repro  3.0/ 5.8  check  3.7/ 7.8  pass both 100.0%  worst passing  12.8 /   9.4
+SDE 8, reference truncated to H20 (= the fitted model)         after  13.1/ 18.0  H1-6   4.9/ 10.2  repro  3.1/ 5.9  check  3.8/ 8.1  pass both 100.0%  worst passing  18.0 /  10.2
+SDE 8, stage scatter 0 (the old inert case)                    after   8.4/ 12.8  H1-6   4.1/  9.4  repro  3.0/ 5.8  check  3.7/ 7.8  pass both 100.0%  worst passing  12.8 /   9.4
+SDE 8, stage scatter 0.10 (SDE phase fully randomised)         after  14.8/ 19.6  H1-6   4.9/  9.5  repro  3.1/ 5.9  check  3.9/ 8.3  pass both 100.0%  worst passing  19.6 /   9.5
+--- R2: the 23.9 / 14.9 claim: other seed, combined faults, faults outside the spec's table
+seed 2026: drift 2 %                                           after  16.3/ 27.3  H1-6   7.5/ 15.9  repro  5.1/10.0  check  4.5/11.6  pass both  90.0%  worst passing  23.5 /  15.0
+seed 2026: drift 5 %                                           after  25.0/ 43.8  H1-6  16.5/ 35.3  repro 11.6/24.3  check  9.3/22.4  pass both  23.0%  worst passing  22.7 /  14.3
+seed 2026: clamp 10+5                                          after  15.0/ 24.9  H1-6   5.6/ 13.3  repro  5.7/ 8.0  check 10.5/19.3  pass both  67.5%  worst passing  21.1 /  10.5
+COMBINED clamp 6+4 and drift 2 %                               after  16.5/ 24.5  H1-6   7.3/ 16.1  repro  5.4/10.9  check  6.9/15.3  pass both  82.5%  worst passing  22.2 /  11.8
+COMBINED clamp 10+5 and drift 3 %                              after  19.1/ 30.9  H1-6  10.1/ 23.3  repro  8.1/16.2  check 11.0/24.3  pass both  36.5%  worst passing  20.5 /  11.2
+   -> worst among passing over these five rows: 23.5 / 15.0   (spec: 23.9 / 14.9)
+outside the table: SDE 20 (pole-pitch class), else GOOD        after  25.9/ 31.1  H1-6   6.8/ 13.0  repro  3.2/ 5.8  check  4.0/ 8.5  pass both 100.0%  worst passing  31.1 /  13.0
+outside the table: C2 bellows 40+20, else GOOD                 after  24.8/ 40.0  H1-6  15.4/ 31.6  repro  6.6/ 9.8  check  4.6/12.6  pass both  90.0%  worst passing  38.0 /  31.6
+outside the table: C2 bellows 40+20 and drift 2 %              after  25.4/ 45.0  H1-6  16.6/ 36.6  repro  7.6/13.3  check  5.4/15.0  pass both  58.5%  worst passing  38.7 /  30.4
+outside the table: C2 diaphragm, varies 60 % per fixturing     after  15.7/ 23.1  H1-6   6.4/ 12.3  repro  3.3/ 6.1  check  3.7/ 8.6  pass both 100.0%  worst passing  23.1 /  12.3
+--- R3: 'about 70 % of the production clamping's deviation is absorbed into S2^' (H1-6 column is the measure)
+no clamp error anywhere, no drift/SDE/C2 variation             after   6.1/  9.8  H1-6   0.8/  1.6  repro  0.7/ 0.8  check  1.2/ 2.0  pass both 100.0%  worst passing   9.8 /   1.6
+production clamp 30+15 only, set B on it (spec)                after  14.1/ 17.2  H1-6  10.2/ 11.3  repro  7.2/ 7.3  check  8.0/ 9.7  pass both 100.0%  worst passing  17.2 /  11.3
+production clamp 30+15 only, set B on fresh clamps (control)   after  40.1/ 43.2  H1-6  36.7/ 38.6  repro  3.2/ 3.4  check  1.3/ 2.6  pass both 100.0%  worst passing  43.2 /  38.6

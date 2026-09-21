@@ -1,0 +1,13 @@
+2000 parts per case, sigma_mean 0.00156 deg, R_MAX 0.02, R_ACCEPT 0.019
+perfect theta_true                             X   0.0"  accepted  534  false-accept    0  worst accepted true 0.0192 deg ( 69.1")  good parts rejected    0/450  median true/ideal of accepted 1.00
+H1 50" (rated limit, eccentricity-like)        X  50.0"  accepted  550  false-accept  350  worst accepted true 0.0293 deg (105.5")  good parts rejected    0/447  median true/ideal of accepted 2.01
+H1 35" + H2 15" (rated limit)                  X  41.9"  accepted  541  false-accept  222  worst accepted true 0.0279 deg (100.6")  good parts rejected    0/426  median true/ideal of accepted 1.79
+H2 40" + H1 20" (bellows coupling S)           X  53.7"  accepted  542  false-accept  349  worst accepted true 0.0323 deg (116.2")  good parts rejected    0/426  median true/ideal of accepted 2.04
+H1 5" (after ideal self-calibration)           X   5.0"  accepted  550  false-accept    1  worst accepted true 0.0200 deg ( 72.1")  good parts rejected    0/447  median true/ideal of accepted 1.02
+H1 15" + H2 8" (honest post-selfcal budget)    X  19.3"  accepted  541  false-accept   12  worst accepted true 0.0221 deg ( 79.4")  good parts rejected    0/426  median true/ideal of accepted 1.26
+H32 20" only (nonius-like SDE)                 X  20.0"  accepted  399  false-accept    0  worst accepted true 0.0153 deg ( 55.2")  good parts rejected   51/447  median true/ideal of accepted 1.00
+H1 200" (magnetic reference, mis-rated)        X 200.0"  accepted  550  false-accept  550  worst accepted true 0.0705 deg (253.9")  good parts rejected    0/447  median true/ideal of accepted 5.84
+
+real	0m39.361s
+user	0m34.390s
+sys	0m5.696s

@@ -1,0 +1,26 @@
+===== rho 0
+800 attack parts: error in H7-H16 clustered at 0.02 and 0.05 deg, part-specific hysteresis shape, AR(1) noise rho 0.0
+grades: {'A': 78, 'B': 339, 'rework': 198, 'rework-hysteresis': 185}
+graded A with true error > 0.02: 0 of 622 such parts (worst 0.0000)
+graded A or B with true error > 0.05: 0 of 225 such parts (worst 0.0000)
+not A with true error < 0.75 x 0.02: 3;  reworked with true error < 0.75 x 0.05: 84
+  true 0.0000-0.0150:    7 parts   A  57.1%  B   0.0%  rework*  42.9%  insufficient   0.0%
+  true 0.0150-0.0200:  171 parts   A  43.3%  B  31.6%  rework*  25.1%  insufficient   0.0%
+  true 0.0200-0.0225:   81 parts   A   0.0%  B  81.5%  rework*  18.5%  insufficient   0.0%
+  true 0.0225-0.0400:  145 parts   A   0.0%  B  82.8%  rework*  17.2%  insufficient   0.0%
+  true 0.0400-0.0500:  171 parts   A   0.0%  B  57.9%  rework*  42.1%  insufficient   0.0%
+  true 0.0500-0.0550:  105 parts   A   0.0%  B   0.0%  rework* 100.0%  insufficient   0.0%
+  true 0.0550-1.0000:  120 parts   A   0.0%  B   0.0%  rework* 100.0%  insufficient   0.0%
+===== rho 0.5
+800 attack parts: error in H7-H16 clustered at 0.02 and 0.05 deg, part-specific hysteresis shape, AR(1) noise rho 0.5
+grades: {'A': 47, 'B': 295, 'insufficient-data': 120, 'rework': 177, 'rework-hysteresis': 161}
+graded A with true error > 0.02: 0 of 629 such parts (worst 0.0000)
+graded A or B with true error > 0.05: 0 of 226 such parts (worst 0.0000)
+not A with true error < 0.75 x 0.02: 3;  reworked with true error < 0.75 x 0.05: 71
+  true 0.0000-0.0150:    7 parts   A  57.1%  B   0.0%  rework*  42.9%  insufficient   0.0%
+  true 0.0150-0.0200:  164 parts   A  26.2%  B  38.4%  rework*  19.5%  insufficient  15.9%
+  true 0.0200-0.0225:   81 parts   A   0.0%  B  56.8%  rework*  16.0%  insufficient  27.2%
+  true 0.0225-0.0400:  153 parts   A   0.0%  B  70.6%  rework*  16.3%  insufficient  13.1%
+  true 0.0400-0.0500:  169 parts   A   0.0%  B  46.2%  rework*  37.9%  insufficient  16.0%
+  true 0.0500-0.0550:  103 parts   A   0.0%  B   0.0%  rework*  94.2%  insufficient   5.8%
+  true 0.0550-1.0000:  123 parts   A   0.0%  B   0.0%  rework*  84.6%  insufficient  15.4%

@@ -1,0 +1,7 @@
+candidates: 4206
+N=1 constructed worst: 6.419 LSB = 0.001102 deg (full sweep max 6.419 LSB at r=0)  amps: -32495/47157
+N=2 constructed worst: 8.859 LSB = 0.001521 deg (full sweep max 8.859 LSB at r=0)  amps: -32609/51147 32654/18379
+N=3 constructed worst: 11.300 LSB = 0.001940 deg (full sweep max 11.300 LSB at r=0)  amps: 32677/14389 -32763/51147 -32591/47157
+N=4 constructed worst: 13.701 LSB = 0.002352 deg (full sweep max 13.701 LSB at r=0)  amps: 32710/14389 32642/14389 -32749/47157 32755/18379
+N=5 constructed worst: 16.122 LSB = 0.002768 deg (full sweep max 16.122 LSB at r=0)  amps: 32462/18379 32362/18379 -32565/47157 -32542/51147 -32707/47157
+N=6 constructed worst: 18.561 LSB = 0.003186 deg (full sweep max 18.561 LSB at r=0)  amps: -32739/51147 32545/18379 32760/18379 -32597/51142 32670/14394 -32366/51147

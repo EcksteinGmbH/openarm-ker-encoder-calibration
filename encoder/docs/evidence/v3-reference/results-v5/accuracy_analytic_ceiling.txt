@@ -1,0 +1,7 @@
+max term err +2.4404 LSB at amp=-32768 arg=14389 ; min -2.4458 LSB at amp=-32739 arg=47157
+ceiling N=1: 1 x 2.4458 + 0.5 = 2.95 LSB = 0.000506 deg
+ceiling N=2: 2 x 2.4458 + 0.5 = 5.39 LSB = 0.000926 deg
+ceiling N=3: 3 x 2.4458 + 0.5 = 7.84 LSB = 0.001345 deg
+ceiling N=4: 4 x 2.4458 + 0.5 = 10.28 LSB = 0.001765 deg
+ceiling N=5: 5 x 2.4458 + 0.5 = 12.73 LSB = 0.002185 deg
+ceiling N=6: 6 x 2.4458 + 0.5 = 15.17 LSB = 0.002605 deg

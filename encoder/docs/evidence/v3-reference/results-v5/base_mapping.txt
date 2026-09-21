@@ -1,0 +1,2 @@
+good     6 harmonics, 15-bit, 10 draws: exact raw15<<6: 0.00571 deg   bit replication: 0.01096 deg
+typical  6 harmonics, 15-bit, 10 draws: exact raw15<<6: 0.00673 deg   bit replication: 0.01171 deg

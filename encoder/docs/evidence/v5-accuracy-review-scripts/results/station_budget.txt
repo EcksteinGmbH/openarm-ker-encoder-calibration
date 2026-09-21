@@ -1,0 +1,54 @@
+A. as bought, §7.7 not done, bellows coupling
+    reference intrinsic error (rated, UNVERIFIED)                         50"
+    coupling kinematic transfer error (bellows, 0.1 mm / 0.09 deg)        40"
+    per-clamp / mounting-specific error                                    0"
+    reference repeatability + bearing NRRO                                 3"
+    wind-up variation (friction x compliance)                              4"
+    settle / timing (no criteria defined)                                 10"
+    reference thermal change of error curve                                5"
+    theta_true:  lin   112" (0.0311 deg)   rss    65" (0.0181 deg)
+    accepted module, absolute, station conditions: gate 72" + theta_true -> lin 0.0511 deg   rss-based 0.0381 deg
+
+B. §7.7 as written (encoder-side remount, 8 turns, order 0..7)
+    reference residual: >H20, H8/H16 (optical-like 8" SDE)                 9"
+    coupling kinematic transfer error — NOT seen by §7.7                  40"
+    per-clamp error of the production mounting                             8"
+    module drift 1 % during the session                                    6"
+    reference repeatability + bearing NRRO                                 3"
+    wind-up variation                                                      4"
+    settle / timing (no criteria defined)                                 10"
+    reference thermal change of error curve                                5"
+    theta_true:  lin    85" (0.0236 deg)   rss    44" (0.0122 deg)
+    accepted module, absolute, station conditions: gate 72" + theta_true -> lin 0.0436 deg   rss-based 0.0322 deg
+
+C. recommended: stage-side remount, palindrome+closure, diaphragm coupling, bracketed reads
+    reference residual: >H20 (SDE measured by fine scan), H16              9"
+    coupling transfer error residual (now calibrated with R)               4"
+    per-clamp error after fold-back of the production mounting             5"
+    module drift (cancelled to first order, closure-checked)               3"
+    reference repeatability + bearing NRRO                                 3"
+    wind-up variation                                                      2"
+    settle / timing (bracket criterion 2")                                 2"
+    reference thermal change of error curve                                5"
+    theta_true:  lin    33" (0.0092 deg)   rss    13" (0.0037 deg)
+    accepted module, absolute, station conditions: gate 72" + theta_true -> lin 0.0292 deg   rss-based 0.0237 deg
+
+metrology ratio tolerance : reference uncertainty (rule of thumb >= 4:1, ISO 14253-1 guard band otherwise)
+    U(theta_true) =  50"  ->  R_MAX/U =  1.4 : 1 ;  guard-banded R_ACCEPT = R_MAX - U = 0.0061 deg
+    U(theta_true) =  64"  ->  R_MAX/U =  1.1 : 1 ;  guard-banded R_ACCEPT = R_MAX - U = 0.0022 deg
+    U(theta_true) =  44"  ->  R_MAX/U =  1.6 : 1 ;  guard-banded R_ACCEPT = R_MAX - U = 0.0078 deg
+    U(theta_true) =  13"  ->  R_MAX/U =  5.5 : 1 ;  guard-banded R_ACCEPT = R_MAX - U = 0.0164 deg
+    U(theta_true) =   5"  ->  R_MAX/U = 14.4 : 1 ;  guard-banded R_ACCEPT = R_MAX - U = 0.0186 deg
+
+lab-fixed magnetic field B_ext in the sensor plane -> H1 error of amplitude B_ext/B_magnet (small-angle)
+    B_magnet 30 mT, B_ext   20 uT (Earth, horizontal component (mid-Europe)): 0.0382 deg = 137.5"
+    B_magnet 30 mT, B_ext   48 uT (Earth, total): 0.0917 deg = 330.0"
+    B_magnet 30 mT, B_ext  100 uT (stepper / steel stray, assumed): 0.1910 deg = 687.5"
+    B_magnet 50 mT, B_ext   20 uT (Earth, horizontal component (mid-Europe)): 0.0229 deg =  82.5"
+    B_magnet 50 mT, B_ext   48 uT (Earth, total): 0.0550 deg = 198.0"
+    B_magnet 50 mT, B_ext  100 uT (stepper / steel stray, assumed): 0.1146 deg = 412.5"
+
+step-5 raw residual noise floor: sigma/pos = sqrt(5.6^2+1.5^2) = 5.8"; E[half-range of 256] ~ 16.5"
+per-harmonic amplitude sigma from one 256-position turn: 0.51"
+kit encoder eccentricity: 5 um at r = 15 mm -> 69" ; 10 um -> 138"
+bearing NRRO 0.3 / 1 / 2 um at r = 15 mm, single read head -> 4.1" / 13.8" / 27.5"

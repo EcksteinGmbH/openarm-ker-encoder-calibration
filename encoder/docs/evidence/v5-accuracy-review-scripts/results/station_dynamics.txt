@@ -1,0 +1,33 @@
+Modbus-RTU 03h, 2 registers, 8E1, 9600 bps:  31.5 ms per poll (+ up to 16 ms if an FTDI adapter is left at its default latency timer)
+Modbus-RTU 03h, 2 registers, 8E1, 19200 bps:  17.8 ms per poll (+ up to 16 ms if an FTDI adapter is left at its default latency timer)
+Modbus-RTU 03h, 2 registers, 8E1, 115200 bps:   6.3 ms per poll (+ up to 16 ms if an FTDI adapter is left at its default latency timer)
+
+ring-down, poll period 31 ms; worst-case |ref - module average|, arcsec
+ A0 deg  f Hz tau ms wait ms | single-before single-after bracket-mean | bracket spread
+   0.05   100     30       0 |        515.21         1.36        68.40 |         537.18
+   0.05   100     30     100 |         18.38         0.05         2.44 |          19.16
+   0.05   100     30     300 |          0.02         0.00         0.00 |           0.02
+   0.05   100     30     500 |          0.00         0.00         0.00 |           0.00
+   0.05   100    100       0 |        247.72        19.27        34.72 |         339.07
+   0.05   100    100     100 |         91.13         7.09        12.77 |         124.74
+   0.05   100    100     300 |         12.33         0.96         1.73 |          16.88
+   0.05   100    100     500 |          1.67         0.13         0.23 |           2.28
+   0.20    60    100       0 |        978.71        69.70       161.04 |        1250.95
+   0.20    60    100     100 |        360.05        25.64        59.24 |         460.20
+   0.20    60    100     300 |         48.73         3.47         8.02 |          62.28
+   0.20    60    100     500 |          6.59         0.47         1.09 |           8.43
+   0.02   700     25       0 |        253.47         0.08        38.25 |         253.52
+   0.02   700     25     100 |          4.64         0.00         0.70 |           4.64
+   0.02   700     25     300 |          0.00         0.00         0.00 |           0.00
+   0.02   700     25     500 |          0.00         0.00         0.00 |           0.00
+
+one step of D during the window (no ringing): hold-current reduction, stick-slip creep
+  D = 0.002 deg (  7.2"): single-before    7.2"  single-after    7.2"  bracket-mean    0.8"  bracket spread    7.2" (detects it)
+  D = 0.010 deg ( 36.0"): single-before   36.0"  single-after   36.0"  bracket-mean    4.0"  bracket spread   36.0" (detects it)
+  D = 0.050 deg (180.0"): single-before  180.0"  single-after  180.0"  bracket-mean   20.0"  bracket spread  180.0" (detects it)
+
+torsional wind-up of the reference coupling under encoder friction torque T: T/C
+  C =   60 N·m/rad, T =    1 mN·m ->    3.4"  C =   60 N·m/rad, T =    3 mN·m ->   10.3"  C =   60 N·m/rad, T =   10 mN·m ->   34.4"
+  C =  150 N·m/rad, T =    1 mN·m ->    1.4"  C =  150 N·m/rad, T =    3 mN·m ->    4.1"  C =  150 N·m/rad, T =   10 mN·m ->   13.8"
+  C =  500 N·m/rad, T =    1 mN·m ->    0.4"  C =  500 N·m/rad, T =    3 mN·m ->    1.2"  C =  500 N·m/rad, T =   10 mN·m ->    4.1"
+  C =   20 N·m/rad, T =    1 mN·m ->   10.3"  C =   20 N·m/rad, T =    3 mN·m ->   30.9"  C =   20 N·m/rad, T =   10 mN·m ->  103.1"

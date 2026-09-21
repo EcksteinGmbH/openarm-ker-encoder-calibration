@@ -1,0 +1,4 @@
+reference self-calibration, 200 random references and modules, 8 mountings, 256 positions each, mount jitter ±3.0°
+reference error half-range, arcsec (constant removed):
+  before  max  49.98  median  43.78
+  after   max   4.55  median   3.01  p99   3.99

@@ -1,0 +1,26 @@
+error of theta_true at the horn, production turn, fresh unit; half-range, arcsec; 100 trials per case
+couplings given as H1+H2 amplitudes in arcsec; reference error 50 arcsec peak before correction, content to H40;
+stage position scatter 0.03 deg rms
+repro = rms of per-turn residual H1-H3 amplitudes; check = largest H1-H7 amplitude on the 100 deg mounting, not in the fit
+H1-6 = the part of the 'after' error that lies in harmonics 1-6, i.e. that can enter a module's coefficients
+case                                                        before med/max   after med/max   H1-6 med/max  cond  repro med/max  check med/max
+v5 procedure; C1 40+20, C2 10+5 (both unmodelled in v5)        72.2/  99.9     52.5/  66.9    49.5/  64.4  13.3     0.6/   0.8     1.2/   2.1
+v6 procedure; same couplings; nothing else                     62.0/ 100.3      6.4/   9.3     0.8/   1.3   3.0     0.7/   0.8     1.2/   1.9
+v6; + clamp 3+2, artefact drift 1 %                            62.2/ 102.8      7.9/  12.2     3.5/   8.3   3.0     2.8/   5.7     3.5/   7.4
+v6; + sub-divisional error 8                                   66.8/ 109.1     13.6/  17.7     4.2/   9.2   3.0     2.8/   5.8     3.7/   7.8
+v6; + C2 differs 30 % per fixturing                            67.6/ 107.3     14.9/  20.0     5.6/  11.6   3.0     3.2/   6.0     3.7/   7.6
+v6; as above, but C2 a bellows 40+20                           74.2/ 138.9     23.4/  40.2    14.7/  31.0   3.0     6.7/   9.6     5.0/  11.8
+v6; as above, C2 a diaphragm 6+3  (= the GOOD station)         67.3/ 106.1     14.0/  17.9     4.7/   9.5   3.0     3.0/   5.6     3.7/   7.1
+
+criteria: repro <= 8.0 and check <= 12.0 arcsec; GOOD station with one fault at a time; 300 stations per row
+station                      after med/max   H1-6 med/max  pass repro  pass check  pass both  worst after / H1-6 among passing
+GOOD                           14.3/  18.3     4.7/   9.7      100.0%      100.0%     100.0%                   18.3 /   9.7
+clamp (6, 4)                   14.6/  19.6     4.9/  10.5      100.0%      100.0%     100.0%                   19.6 /  10.5
+clamp (10, 5)                  15.0/  21.1     5.4/  12.0      100.0%       70.3%      70.3%                   21.1 /  12.0
+clamp (20, 10)                 17.2/  25.2     8.1/  16.2        0.0%        3.3%       0.0%                    nan /   nan
+clamp (30, 15)                 20.1/  29.3    11.2/  20.4        0.0%        0.0%       0.0%                    nan /   nan
+drift 0.02                     16.3/  24.1     7.0/  16.1       91.7%      100.0%      91.7%                   23.9 /  13.4
+drift 0.03                     18.5/  30.8     9.5/  22.9       66.3%       97.0%      66.3%                   23.0 /  13.7
+drift 0.05                     23.7/  44.3    15.1/  36.5       28.0%       80.0%      28.0%                   23.4 /  14.9
+drift 0.1                      37.3/  78.2    29.8/  70.7        3.3%       33.3%       3.3%                   23.7 /  12.7
+worst theta_true error of any station that passed both criteria: 23.9 arcsec, of which in H1-6: 14.9 arcsec

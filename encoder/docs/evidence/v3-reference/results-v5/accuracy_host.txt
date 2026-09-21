@@ -1,0 +1,11 @@
+realistic, 300 sets        :  1.594 LSB = 0.000274 deg
+  seed 1 -> 11.961 LSB = 0.002053 deg
+  seed 2 -> 13.598 LSB = 0.002334 deg
+  seed 3 -> 11.856 LSB = 0.002035 deg
+  seed 4 -> 11.046 LSB = 0.001896 deg
+  seed 5 -> 12.945 LSB = 0.002222 deg
+  seed 6 -> 12.812 LSB = 0.002199 deg
+  seed 7 -> 13.561 LSB = 0.002328 deg
+  seed 8 -> 13.636 LSB = 0.002341 deg
+hill-climb search best (N=6): 13.636 LSB = 0.002341 deg  -- a search result, NOT the worst case;
+  the constructed worst case is in accuracy_constructed_worst.txt (spec 7.5)

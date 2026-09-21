@@ -1,0 +1,1 @@
+CRC-8 over 8 bytes: bitwise 592 cy, table 123 cy; table==bitwise over 2000 vectors: yes

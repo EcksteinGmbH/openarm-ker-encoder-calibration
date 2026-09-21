@@ -1,0 +1,13 @@
+upstream          sensor  20 joint  140  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+upstream          sensor  20 joint  100  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+upstream          sensor   5 joint   75  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+upstream          sensor 250 joint -135  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+v6 (8 LSB)        sensor  20 joint  140  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+v6 (8 LSB)        sensor  20 joint  100  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+v6 (8 LSB)        sensor   5 joint   75  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+v6 (8 LSB)        sensor 250 joint -135  accumulation error after 1 h: +0.000000  +0.000000  +0.000000
+mutant C (1 LSB)  sensor  20 joint  140  accumulation error after 1 h: +0.013023  +0.012741  +0.003960
+mutant C (1 LSB)  sensor  20 joint  100  accumulation error after 1 h: +0.006874  -0.002182  +0.001244
+mutant C (1 LSB)  sensor   5 joint   75  accumulation error after 1 h: +0.003757  -0.000824  +0.005474
+mutant C (1 LSB)  sensor 250 joint -135  accumulation error after 1 h: -0.000004  +0.000000  +0.000004
+v6 exactly zero: True; upstream bounded (<= 1e-4): True; negative control drifts (> 1e-3): True  ->  PASS

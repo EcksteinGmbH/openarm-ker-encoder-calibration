@@ -1,0 +1,7 @@
+N=0 min=156 max=156
+N=1 min=354 max=360
+N=2 min=487 max=499
+N=3 min=620 max=635
+N=4 min=756 max=774
+N=5 min=886 max=910
+N=6 min=1022 max=1049

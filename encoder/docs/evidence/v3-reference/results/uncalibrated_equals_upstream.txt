@@ -1,0 +1,1 @@
+n=0 vs upstream main.cpp:367-368 mapping, all 32768 codes: 0 mismatches

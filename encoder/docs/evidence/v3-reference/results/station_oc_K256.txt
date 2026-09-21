@@ -1,0 +1,18 @@
+sigma per reading 0.05°, K = 256 (σ_mean 0.0031°), grade A ≤ 0.02°, grade B ≤ 0.05°, 128 fit + 128 validation positions × 2 directions, drift 0.0°, hysteresis ±0.05°, 4000 parts
+grades: {'A': 666, 'B': 1178, 'insufficient-data': 1356, 'rework': 800}
+measured hysteresis half-difference: median 0.0691°, max 0.0770°  (true max 0.0650°)
+   true systematic error  parts       A       B  rework
+            0.000–0.005°     86   62.8%    0.0%    0.0%
+            0.005–0.010°    350   69.4%    0.0%    0.0%
+            0.010–0.015°    392   64.5%    0.3%    0.0%
+            0.015–0.020°    402   28.9%   33.6%    0.0%
+            0.020–0.025°    366    0.0%   70.2%    0.0%
+            0.025–0.030°    291    0.0%   66.7%    0.0%
+            0.030–0.040°    583    0.0%   65.0%    0.0%
+            0.040–0.050°    445    0.0%   47.6%   20.7%
+            0.050–0.060°    316    0.0%    0.0%   68.4%
+            0.060–1.000°    769    0.0%    0.0%   64.0%
+graded A with true error > 0.02°: 0  (worst 0.0000°)
+graded A or B with true error > 0.05°: 0  (worst 0.0000°)
+not graded A with true error < 0.75 × 0.02°: 1
+reworked with true error < 0.75 × 0.05°: 0

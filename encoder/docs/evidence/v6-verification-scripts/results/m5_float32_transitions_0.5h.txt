@@ -1,0 +1,23 @@
+ker_compensate() output is a multiple of 8 for all 32768 codes x 5 coefficient sets
+0.5 h at 1 kHz per cell; grid 9 sensor angles x 9 joint angles; error = float32 accumulator minus exact, degrees
+--- Q1/Q4: mapping x motion
+upstream  motion +- 0 deg                                                      max |err| 0.000015   cells with err != 0: 13/81
+upstream  motion +-60 deg                                                      max |err| 0.000031   cells with err != 0: 21/81
+q1        motion +- 0 deg                                                      max |err| 0.011909   cells with err != 0: 63/81
+q1        motion +-60 deg                                                      max |err| 0.013729   cells with err != 0: 77/81
+q2        motion +- 0 deg                                                      max |err| 0.011986   cells with err != 0: 44/81
+q2        motion +-60 deg                                                      max |err| 0.009666   cells with err != 0: 69/81
+q4        motion +- 0 deg                                                      max |err| 0.000076   cells with err != 0: 23/81
+q4        motion +-60 deg                                                      max |err| 0.000961   cells with err != 0: 49/81
+q8        motion +- 0 deg                                                      max |err| 0.000000   cells with err != 0: 0/81
+q8        motion +-60 deg                                                      max |err| 0.000000   cells with err != 0: 0/81
+q8        motion +-60 deg, _invert path                                        max |err| 0.000000   cells with err != 0: 0/81
+upstream  motion +-60 deg, _invert path                                        max |err| 0.000015   cells with err != 0: 11/81
+--- Q2: compensation suspended / resumed (spec 6.2)
+q8 <-> upstream, 5 s suspended per minute, stationary                          max |err| 0.000011   cells with err != 0: 53/81
+q8 <-> upstream, 5 s suspended per minute, moving +-60                         max |err| 0.000027   cells with err != 0: 64/81
+q8 <-> upstream, flapping every 16 reads, stationary                           max |err| 0.000011   cells with err != 0: 57/81
+q8 <-> upstream, flapping every 16 reads, moving +-60                          max |err| 0.005955   cells with err != 0: 78/81
+--- Q3: jig offset stored from an uncalibrated (upstream-mapped) reading, stream calibrated
+q8, jig offset on the upstream grid, stationary                                max |err| 0.000019   cells with err != 0: 59/81
+q8, jig offset on the upstream grid, moving +-60                               max |err| 0.000019   cells with err != 0: 59/81

@@ -1,0 +1,13 @@
+sigma per reading 0.05°, K = 1024 (σ_mean 0.0016°), R_MAX 0.02°, 128 fit + 128 validation positions, drift 0.0°, 4000 parts
+verdicts: {np.str_('accept'): np.int64(1085), np.str_('reject'): np.int64(2915)}
+   true systematic error  parts  accepted
+            0.000–0.005°    119    100.0%
+            0.005–0.010°    373    100.0%
+            0.010–0.015°    370    100.0%
+            0.015–0.020°    386     57.8%
+            0.020–0.025°    332      0.0%
+            0.025–0.030°    314      0.0%
+            0.030–0.040°    576      0.0%
+            0.040–1.000°   1530      0.0%
+accepted with true error > R_MAX: 0  (worst 0.0000°)
+rejected with true error < 0.75·R_MAX: 0

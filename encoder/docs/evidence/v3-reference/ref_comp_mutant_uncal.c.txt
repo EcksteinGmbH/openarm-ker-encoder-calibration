@@ -1,0 +1,70 @@
+#include "ref_comp.h"
+#ifndef KER_SIN_SEG_BITS
+#define KER_SIN_SEG_BITS 7                        /* 2^7 = 128 segments per quarter wave */
+#endif
+#define KER_SIN_SEGS  (1u << KER_SIN_SEG_BITS)
+#define KER_SIN_SHIFT (14 - KER_SIN_SEG_BITS)       /* quarter wave spans x = 0..0x4000 */
+/* SEGS+1 quarter-wave points plus 1 pad, so idx+1 never leaves the table (idx==SEGS only at frac==0). */
+const int16_t ker_sinq[KER_SIN_SEGS + 2] = {
+#if KER_SIN_SEG_BITS == 6
+#include "sinq6.inc"
+#elif KER_SIN_SEG_BITS == 7
+#include "sinq7.inc"
+#else
+#error "unsupported KER_SIN_SEG_BITS"
+#endif
+};
+#if KER_SIN_SEG_BITS == 6
+#include "sinq6_bound.inc"
+#else
+#include "sinq7_bound.inc"
+#endif
+/* The interpolation below runs in uint16_t. This is the only thing that makes that correct. */
+_Static_assert(KER_SIN_INTERP_WORST <= 0xFFFFUL,
+               "sine table too coarse: interpolation product overflows uint16_t; raise KER_SIN_SEG_BITS");
+static inline __attribute__((always_inline)) int16_t sin_q15_inl(uint16_t a) {
+  uint8_t  quad = (uint8_t)(a >> 14);
+  uint16_t x    = a & 0x3FFF;
+  if (quad & 1) x = (uint16_t)(0x4000 - x);          /* 1..0x4000 */
+  uint8_t idx  = (uint8_t)(x >> KER_SIN_SHIFT);               /* 0..SEGS */
+  uint8_t frac = (uint8_t)(x & ((1u << KER_SIN_SHIFT) - 1u));
+  int16_t a0 = ker_sinq[idx], a1 = ker_sinq[idx + 1];
+  /* 16-bit product, proven in range by the _Static_assert above (gen_sinq.py computes the bound
+   * from the table itself). Every operand is explicitly uint16_t so the result is identical on a
+   * 16-bit-int AVR and a 32-bit-int host. Rounded, not truncated. */
+  uint16_t p = (uint16_t)((uint16_t)(a1 - a0) * (uint16_t)frac + (uint16_t)(1u << (KER_SIN_SHIFT - 1)));
+  int16_t v = (int16_t)(a0 + (int16_t)(p >> KER_SIN_SHIFT));
+  return (quad & 2) ? (int16_t)(-v) : v;
+}
+int16_t ker_sin_q15(uint16_t a) { return sin_q15_inl(a); }   /* exported for tests */
+
+/* Spec v3 sec 6.2:
+ *   uncalibrated (n == 0): upstream mapping, bit-exact:  (raw15 << 6) | (raw15 >> 9)
+ *   calibrated   (n >= 1): u_out = (raw15 << 6) + sum_k A_k * sin(k*theta_s + phi_k)   mod 2^21
+ *                          theta_s = raw15 * 360 / 32768
+ * The calibrated base is the exact scaling (64 counts per sensor step). Upstream's bit replication
+ * has gain 64.0019 and so adds a 0..63 LSB ramp that jumps at 0 deg, which no harmonic series can
+ * cancel; it is kept only for uncalibrated modules, where upstream compatibility is the point.
+ * raw15<<1 IS the exact BAM16 of theta_s, so k*theta_s is exact mod 2^16 and no 32-bit shift is
+ * ever needed. */
+uint32_t ker_compensate(uint16_t raw15, const ker_cal_t *c) {
+  raw15 &= 0x7FFF;
+  /* n > KER_NHARM_MAX cannot pass page validation; treated as uncalibrated rather than
+   * indexing past amp[]/phase[] if a caller ever bypasses validation. */
+  if (c->n == 0 || c->n > KER_NHARM_MAX) return (uint32_t)(raw15 << 6) | (raw15 >> 9);
+  uint32_t u = (uint32_t)raw15 << 6;
+  uint16_t a16 = (uint16_t)(raw15 << 1);
+  uint16_t arg = 0;
+  int32_t  acc = 0;                                      /* Q7, 21-bit LSB */
+  for (uint8_t k = 0; k < c->n; k++) {
+    arg = (uint16_t)(arg + a16);                         /* (k+1)*theta, wraps mod 360 */
+    int16_t s = sin_q15_inl((uint16_t)(arg + c->phase[k]));
+    acc += ((int32_t)c->amp[k] * s) >> 8;                /* >>8: byte select */
+  }
+  /* One rounding, once, to a multiple of 8 LSB (spec v6 §7.1). u is a multiple of 64, so rounding the
+   * correction rounds the output. The M5 integrates float32 differences of this value
+   * (M5/include/AngleProcessor.h:68-72); multiples of 8 LSB are multiples of 45 * 2^-15 deg, exact in
+   * float32 below 512 deg, so every one of its adds is exact. Finer steps drift (review S3, 2026-09-20). */
+  int32_t delta = ((acc + 512) >> 10) * 8;               /* acc is Q7: 2^10 = 8 LSB */
+  return (uint32_t)(((int32_t)u + delta) & 0x1FFFFFL);
+}

@@ -1,0 +1,1 @@
+linked flash cost of ker_compensate on attiny1616 (code + libgcc + 260 B table, -Os, gc-sections): 650 bytes

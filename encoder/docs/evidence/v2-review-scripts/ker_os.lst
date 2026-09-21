@@ -1,0 +1,169 @@
+
+ker_os.o:     file format elf32-avr
+
+
+Disassembly of section .text:
+
+00000000 <ker_compensate>:
+   0:	2f 92       	push	r2
+   2:	3f 92       	push	r3
+   4:	4f 92       	push	r4
+   6:	5f 92       	push	r5
+   8:	6f 92       	push	r6
+   a:	7f 92       	push	r7
+   c:	8f 92       	push	r8
+   e:	9f 92       	push	r9
+  10:	af 92       	push	r10
+  12:	bf 92       	push	r11
+  14:	cf 92       	push	r12
+  16:	df 92       	push	r13
+  18:	ef 92       	push	r14
+  1a:	ff 92       	push	r15
+  1c:	0f 93       	push	r16
+  1e:	1f 93       	push	r17
+  20:	cf 93       	push	r28
+  22:	df 93       	push	r29
+  24:	6b 01       	movw	r12, r22
+  26:	7c 01       	movw	r14, r24
+  28:	ea 01       	movw	r28, r20
+  2a:	6c 88       	ldd	r6, Y+20	; 0x14
+  2c:	77 24       	eor	r7, r7
+  2e:	73 94       	inc	r7
+  30:	81 2c       	mov	r8, r1
+  32:	91 2c       	mov	r9, r1
+  34:	54 01       	movw	r10, r8
+  36:	21 2c       	mov	r2, r1
+  38:	90 e4       	ldi	r25, 0x40	; 64
+  3a:	39 2e       	mov	r3, r25
+  3c:	67 14       	cp	r6, r7
+  3e:	00 f4       	brcc	.+0      	; 0x40 <ker_compensate+0x40>
+			3e: R_AVR_7_PCREL	.text+0x76
+  40:	c8 18       	sub	r12, r8
+  42:	d9 08       	sbc	r13, r9
+  44:	ea 08       	sbc	r14, r10
+  46:	fb 08       	sbc	r15, r11
+  48:	c7 01       	movw	r24, r14
+  4a:	b6 01       	movw	r22, r12
+  4c:	8f 71       	andi	r24, 0x1F	; 31
+  4e:	99 27       	eor	r25, r25
+  50:	df 91       	pop	r29
+  52:	cf 91       	pop	r28
+  54:	1f 91       	pop	r17
+  56:	0f 91       	pop	r16
+  58:	ff 90       	pop	r15
+  5a:	ef 90       	pop	r14
+  5c:	df 90       	pop	r13
+  5e:	cf 90       	pop	r12
+  60:	bf 90       	pop	r11
+  62:	af 90       	pop	r10
+  64:	9f 90       	pop	r9
+  66:	8f 90       	pop	r8
+  68:	7f 90       	pop	r7
+  6a:	6f 90       	pop	r6
+  6c:	5f 90       	pop	r5
+  6e:	4f 90       	pop	r4
+  70:	3f 90       	pop	r3
+  72:	2f 90       	pop	r2
+  74:	08 95       	ret
+  76:	e7 2d       	mov	r30, r7
+  78:	f0 e0       	ldi	r31, 0x00	; 0
+  7a:	ee 0f       	add	r30, r30
+  7c:	ff 1f       	adc	r31, r31
+  7e:	ec 0f       	add	r30, r28
+  80:	fd 1f       	adc	r31, r29
+  82:	a7 2d       	mov	r26, r7
+  84:	b0 e0       	ldi	r27, 0x00	; 0
+  86:	a7 01       	movw	r20, r14
+  88:	96 01       	movw	r18, r12
+  8a:	0e 94 00 00 	call	0	; 0x0 <ker_compensate>
+			8a: R_AVR_CALL	__muluhisi3
+  8e:	dc 01       	movw	r26, r24
+  90:	cb 01       	movw	r24, r22
+  92:	15 e0       	ldi	r17, 0x05	; 5
+  94:	b6 95       	lsr	r27
+  96:	a7 95       	ror	r26
+  98:	97 95       	ror	r25
+  9a:	87 95       	ror	r24
+  9c:	1a 95       	dec	r17
+  9e:	01 f4       	brne	.+0      	; 0xa0 <ker_compensate+0xa0>
+			9e: R_AVR_7_PCREL	.text+0x94
+  a0:	20 85       	ldd	r18, Z+8	; 0x08
+  a2:	31 85       	ldd	r19, Z+9	; 0x09
+  a4:	82 0f       	add	r24, r18
+  a6:	93 1f       	adc	r25, r19
+  a8:	32 97       	sbiw	r30, 0x02	; 2
+  aa:	00 81       	ld	r16, Z
+  ac:	11 81       	ldd	r17, Z+1	; 0x01
+  ae:	9c 01       	movw	r18, r24
+  b0:	3f 73       	andi	r19, 0x3F	; 63
+  b2:	2c 01       	movw	r4, r24
+  b4:	84 e0       	ldi	r24, 0x04	; 4
+  b6:	58 9e       	mul	r5, r24
+  b8:	41 2c       	mov	r4, r1
+  ba:	55 24       	eor	r5, r5
+  bc:	11 24       	eor	r1, r1
+  be:	40 fe       	sbrs	r4, 0
+  c0:	00 c0       	rjmp	.+0      	; 0xc2 <ker_compensate+0xc2>
+			c0: R_AVR_13_PCREL	.text+0xca
+  c2:	c1 01       	movw	r24, r2
+  c4:	82 1b       	sub	r24, r18
+  c6:	93 0b       	sbc	r25, r19
+  c8:	9c 01       	movw	r18, r24
+  ca:	83 2f       	mov	r24, r19
+  cc:	99 27       	eor	r25, r25
+  ce:	fc 01       	movw	r30, r24
+  d0:	ee 0f       	add	r30, r30
+  d2:	ff 1f       	adc	r31, r31
+  d4:	e0 50       	subi	r30, 0x00	; 0
+			d4: R_AVR_LO8_LDI_NEG	sinq
+  d6:	f0 40       	sbci	r31, 0x00	; 0
+			d6: R_AVR_HI8_LDI_NEG	sinq
+  d8:	45 91       	lpm	r20, Z+
+  da:	54 91       	lpm	r21, Z
+  dc:	fc 01       	movw	r30, r24
+  de:	ee 0f       	add	r30, r30
+  e0:	ff 1f       	adc	r31, r31
+  e2:	e0 50       	subi	r30, 0x00	; 0
+			e2: R_AVR_LO8_LDI_NEG	sinq+0x2
+  e4:	f0 40       	sbci	r31, 0x00	; 0
+			e4: R_AVR_HI8_LDI_NEG	sinq+0x2
+  e6:	a5 91       	lpm	r26, Z+
+  e8:	b4 91       	lpm	r27, Z
+  ea:	a4 1b       	sub	r26, r20
+  ec:	b5 0b       	sbc	r27, r21
+  ee:	30 e0       	ldi	r19, 0x00	; 0
+  f0:	0e 94 00 00 	call	0	; 0x0 <ker_compensate>
+			f0: R_AVR_CALL	__usmulhisi3
+  f4:	67 2f       	mov	r22, r23
+  f6:	78 2f       	mov	r23, r24
+  f8:	89 2f       	mov	r24, r25
+  fa:	99 27       	eor	r25, r25
+  fc:	87 fd       	sbrc	r24, 7
+  fe:	9a 95       	dec	r25
+ 100:	da 01       	movw	r26, r20
+ 102:	a6 0f       	add	r26, r22
+ 104:	b7 1f       	adc	r27, r23
+ 106:	41 fe       	sbrs	r4, 1
+ 108:	00 c0       	rjmp	.+0      	; 0x10a <ker_compensate+0x10a>
+			108: R_AVR_13_PCREL	.text+0x110
+ 10a:	b1 95       	neg	r27
+ 10c:	a1 95       	neg	r26
+ 10e:	b1 09       	sbc	r27, r1
+ 110:	98 01       	movw	r18, r16
+ 112:	0e 94 00 00 	call	0	; 0x0 <ker_compensate>
+			112: R_AVR_CALL	__mulhisi3
+ 116:	2f e0       	ldi	r18, 0x0F	; 15
+ 118:	95 95       	asr	r25
+ 11a:	87 95       	ror	r24
+ 11c:	77 95       	ror	r23
+ 11e:	67 95       	ror	r22
+ 120:	2a 95       	dec	r18
+ 122:	01 f4       	brne	.+0      	; 0x124 <ker_compensate+0x124>
+			122: R_AVR_7_PCREL	.text+0x118
+ 124:	86 0e       	add	r8, r22
+ 126:	97 1e       	adc	r9, r23
+ 128:	a8 1e       	adc	r10, r24
+ 12a:	b9 1e       	adc	r11, r25
+ 12c:	73 94       	inc	r7
+ 12e:	00 c0       	rjmp	.+0      	; 0x130 <__SREG__+0xf1>
+			12e: R_AVR_13_PCREL	.text+0x3c
