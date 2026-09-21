@@ -134,9 +134,11 @@ table is indistinguishable from a measurement the next time someone reads it.
   notice; files written here are `Copyright 2026 Eckstein GmbH`. `src/ker_ssc.h` keeps the upstream
   notice because its contents were moved out of `src/main.cpp` unchanged.
 
-## 6. Housekeeping still owed
+## 6. Ignore rules
 
-- **`.gitignore` is incomplete.** `encoder/.gitignore` covers `.pio`, `.venv/`, `__pycache__`, `*.pyc`
-  and `.omc/`, but there is no `.gitignore` at the repository root, so `.omc/` and `M5/.omc/` show as
-  untracked there. A root `.gitignore` is outside the `encoder/`-only scope this fork has kept to so
-  far, which is why it has not been added; it should be, before it gets committed by accident.
+Repository-wide rules are in the root `.gitignore`. `M5/.gitignore` and `encoder/.gitignore` are
+upstream's and are left exactly as upstream wrote them, so that the set of modified upstream files
+stays as small as it can be; anything this fork needs to ignore goes in the root file instead.
+
+One thing that must **not** be added there: a blanket build-output rule. `encoder/firmware/*.hex` is
+tracked upstream.
