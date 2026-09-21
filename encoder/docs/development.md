@@ -127,6 +127,10 @@ table is indistinguishable from a measurement the next time someone reads it.
   `M5/src/main.cpp:425`), so it must stay, but it stays as upstream's.
 - **`main` tracks upstream.** Work happens on `calibration`. Keeping `main` clean is what makes
   "Sync fork" work and lets a small upstream PR be cut without dragging the whole fork with it.
+  Never merge `calibration` into `main`: most of this repository is fork identity — the README
+  banner, `CLAUDE.md`, the changelog, `docs/`, `tools/` and `test/` — and none of it belongs
+  upstream. `../../CLAUDE.md` lists what may never leave the fork, and how to cut an upstream PR
+  without dragging it along.
 - **Claims are marked.** *measured* means there is a command that reproduces it; anything else says
   so. If you find a figure that is neither, that is a defect.
 - **New features go in new files**, and `src/main.cpp` stays as close to upstream as it can.

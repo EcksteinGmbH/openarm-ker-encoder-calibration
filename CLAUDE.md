@@ -29,14 +29,45 @@ where the project stands, and what to do next. `encoder/docs/protocol-spec.md` i
   notice because its contents were moved out of `main.cpp` unchanged.
 - **Commit only when asked.**
 
-## Git
+## Git, and what may never leave the fork
 
 Work on `calibration`, the default branch. **`main` is kept equal to upstream** so that "Sync fork"
-keeps working and a small upstream PR can be cut from a clean base — the fork relationship is
-deliberate (spec §12 and the README explain why). Do not merge work into `main`.
+keeps working and a small upstream PR can be cut from a clean base. **Never merge `calibration` into
+`main`**, and never open a PR from `calibration` to upstream.
+
+Much of this repository is *fork identity*: it describes this fork, its process and its tooling, and
+it would be noise or worse in the upstream project. None of the following may ever reach `main` or
+an upstream PR:
+
+| | |
+|---|---|
+| `README.md` | the fork banner at the top and the licence paragraph at the bottom |
+| `CLAUDE.md`, `.gitignore` | this fork's tooling |
+| `encoder/README.md` | the fork sections |
+| `encoder/CHANGELOG.md` | this fork's changelog |
+| `encoder/docs/**` | the specification, the evidence and 22 reviews — this fork's design record |
+| `encoder/tools/`, `encoder/test/` | the station tool and the verification suite |
 
 **On GitHub, a new PR defaults its base to `enactic/openarm_ker_firmware`.** Check the base before
 opening one, or an internal review lands on the upstream project.
+
+### Cutting an upstream PR
+
+Branch from `main`, not from `calibration`, and **re-author the one change** rather than
+cherry-picking a commit from here — the commits on `calibration` mix the change with fork context,
+fork copyright headers and references to documents upstream does not have. Keep each PR to one
+thing. Three candidates were identified while building this, all findings about upstream's own code
+rather than features of this fork, and all better raised as issues first:
+
+1. **The M5 integrates float32 differences and never re-references**
+   (`M5/include/AngleProcessor.h:68-72`). Upstream's own mapping happens to be safe, but any change
+   that makes the encoder output move by arbitrary LSB counts drifts the joint angle for hours. It
+   is an undocumented constraint on the encoder side; see spec §7.1, D22. Reproducible in simulation,
+   needs no hardware.
+2. **`DEVICE_ID`'s fallback is 1** (upstream `encoder/src/main.cpp:38`), which is the ID that answers
+   the M5's own trigger. A board flashed without the build flag impersonates joint 1 rather than
+   staying silent. See spec §5.4.
+3. **`crc8_0x07()` is dead code** and uses polynomial 0x07, not the TLE5012B's 0x1D. See spec §1.8.
 
 ## Commands
 
