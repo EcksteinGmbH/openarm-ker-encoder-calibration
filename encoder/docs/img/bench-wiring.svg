@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 392" width="820" height="392"
+     font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <title>Bench wiring: one module, one host, no M5</title>
+  <desc>A host PC drives a USB to RS-485 adapter, whose A and B lines reach exactly one encoder
+  module over a twisted pair with a 120 ohm terminator at each end. A separate 5 V supply and a
+  serialUPDI programmer also reach the module. An M5 controller is shown crossed out: it must never
+  share this bus.</desc>
+
+  <g stroke="#808080" fill="none" stroke-width="1.6">
+    <rect x="24"  y="150" width="124" height="58" rx="6"/>
+    <rect x="188" y="150" width="152" height="58" rx="6"/>
+    <rect x="466" y="140" width="212" height="80" rx="6"/>
+    <rect x="466" y="30"  width="212" height="56" rx="6"/>
+    <rect x="486" y="292" width="176" height="56" rx="6"/>
+  </g>
+
+  <g stroke="#808080" stroke-width="1.6" fill="none">
+    <path d="M148 179 H182"/>
+    <path d="M340 166 H460"/>
+    <path d="M340 192 H460"/>
+    <path d="M572 86 V134"/>
+    <path d="M574 292 V232"/>
+    <rect x="350" y="166" width="12" height="26" rx="1"/>
+    <rect x="432" y="166" width="12" height="26" rx="1"/>
+  </g>
+  <g fill="#808080">
+    <path d="M188 179 l-10 -4.5 v9 z"/>
+    <path d="M466 166 l-10 -4.5 v9 z"/>
+    <path d="M466 192 l-10 -4.5 v9 z"/>
+    <path d="M572 140 l-4.5 -10 h9 z"/>
+    <path d="M574 226 l-4.5 10 h9 z"/>
+  </g>
+
+  <g fill="#808080" font-size="13">
+    <text x="86"  y="176" text-anchor="middle">Host PC</text>
+    <text x="86"  y="194" text-anchor="middle" font-size="11">kercal</text>
+    <text x="264" y="176" text-anchor="middle">USB–RS-485</text>
+    <text x="264" y="194" text-anchor="middle" font-size="11">2 Mbps, half duplex</text>
+    <text x="572" y="170" text-anchor="middle" font-weight="600">Encoder module</text>
+    <text x="572" y="189" text-anchor="middle" font-size="11">one, and only one (§3.4)</text>
+    <text x="572" y="206" text-anchor="middle" font-size="11">boots as ID 31 until provisioned</text>
+    <text x="572" y="54"  text-anchor="middle">5 V supply</text>
+    <text x="572" y="73"  text-anchor="middle" font-size="11">≥ 4.75 V at the module (D19)</text>
+    <text x="574" y="318" text-anchor="middle">serialUPDI programmer</text>
+    <text x="574" y="336" text-anchor="middle" font-size="11">flashing only</text>
+    <text x="397" y="158" text-anchor="middle" font-size="11">A</text>
+    <text x="397" y="208" text-anchor="middle" font-size="11">B</text>
+    <text x="397" y="230" text-anchor="middle" font-size="10">120 Ω at each end</text>
+  </g>
+
+  <g stroke="#C0392B" stroke-width="1.8" fill="none">
+    <rect x="150" y="292" width="150" height="56" rx="6" stroke-dasharray="5 4"/>
+    <path d="M158 300 L292 340"/><path d="M292 300 L158 340"/>
+  </g>
+  <g fill="#C0392B">
+    <text x="225" y="325" text-anchor="middle" font-size="14" font-weight="700">M5</text>
+    <text x="225" y="366" text-anchor="middle" font-size="12" font-weight="600">never on this bus</text>
+  </g>
+  <g fill="#808080" font-size="11">
+    <text x="24" y="256">An M5 parses any frame with ID 1–16 as a joint angle (§1.5, §1.6).</text>
+    <text x="24" y="272">A host request on a live arm can move a robot.</text>
+  </g>
+</svg>

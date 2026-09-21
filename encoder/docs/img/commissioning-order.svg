@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 392" width="900" height="392"
+     font-family="ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <title>Commissioning order: 37 turns, and which clamping becomes the production mounting</title>
+  <desc>Set A runs out through ten reference mountings, reaches a check mounting at 100 degrees that
+  is never used in the fit, then runs back through the same ten. The last clamping of set A is the
+  production mounting and is never touched again. Set B then re-clocks the horn at eight angles, out
+  and back, on that mounting.</desc>
+
+  <line x1="60" y1="150" x2="852" y2="150" stroke="#808080" stroke-width="1.6"/>
+  <path d="M852 150 l-10 -5 v10 z" fill="#808080"/>
+
+  <g stroke="#808080" stroke-width="1.6" fill="none">
+    <path d="M70 144 v12 M96 144 v12 M122 144 v12 M148 144 v12 M174 144 v12
+             M200 144 v12 M226 144 v12 M252 144 v12 M278 144 v12 M304 144 v12"/>
+    <path d="M400 144 v12 M426 144 v12 M452 144 v12 M478 144 v12 M504 144 v12
+             M530 144 v12 M556 144 v12 M582 144 v12 M608 144 v12"/>
+  </g>
+  <circle cx="352" cy="150" r="9" fill="none" stroke="#808080" stroke-width="2"/>
+  <path d="M634 136 v28" stroke="#808080" stroke-width="3.4"/>
+  <g stroke="#808080" stroke-width="1.4" fill="none" stroke-dasharray="3 3">
+    <path d="M670 145 v10 M680 145 v10 M690 145 v10 M700 145 v10 M710 145 v10 M720 145 v10
+             M730 145 v10 M740 145 v10 M750 145 v10 M760 145 v10 M770 145 v10 M780 145 v10
+             M790 145 v10 M800 145 v10 M810 145 v10 M820 145 v10"/>
+  </g>
+
+  <g stroke="#808080" stroke-width="1.4" fill="none">
+    <path d="M64 114 v-10 h246 v10"/>
+    <path d="M394 114 v-10 h246 v10"/>
+    <path d="M662 114 v-10 h166 v10"/>
+    <path d="M64 240 v-10 h576 v10"/>
+    <path d="M634 164 v56 h66"/>
+  </g>
+
+  <g fill="#808080" font-size="13">
+    <text x="187" y="78" text-anchor="middle" font-weight="600">Set A, out</text>
+    <text x="517" y="78" text-anchor="middle" font-weight="600">Set A, back</text>
+    <text x="745" y="78" text-anchor="middle" font-weight="600">Set B — horn re-clocked</text>
+  </g>
+  <g fill="#808080" font-size="11">
+    <text x="187" y="96" text-anchor="middle">0°, 45° … 315°, then 22.5°, 11.25°</text>
+    <text x="517" y="96" text-anchor="middle">11.25°, 22.5°, 315° … 0°</text>
+    <text x="745" y="96" text-anchor="middle">8 angles, out and back, 16 turns</text>
+
+    <text x="352" y="180" text-anchor="middle" font-size="12" font-weight="600">check mounting, 100°</text>
+    <text x="352" y="197" text-anchor="middle">not used in the fit —</text>
+    <text x="352" y="212" text-anchor="middle">it is what tests the fit</text>
+
+    <text x="352" y="262" text-anchor="middle" font-size="12">Reference side: reference + C1 remounted as one body</text>
+
+    <text x="706" y="216" font-weight="600" font-size="12">production mounting</text>
+    <text x="706" y="232">the last clamping of set A —</text>
+    <text x="706" y="247">never touched again</text>
+    <text x="706" y="276" font-size="12">37 turns, ≈ 2 hours</text>
+  </g>
+
+  <g fill="#808080" font-size="12">
+    <text x="40" y="304" font-weight="600">Why this order, and not a more convenient one.</text>
+    <text x="40" y="324">Running out and back equalises the transfer artefact's drift within each set. It does not remove the offset between set A's</text>
+    <text x="40" y="342">mean and set B's, which the fit books to Ŝ2 — hence the 30-minute warm-up and the ± 2 TEMPR-count limit. The check</text>
+    <text x="40" y="360">mounting sits at the turning point because that is the only place it is reachable without an extra remount. Set B runs on the</text>
+    <text x="40" y="378">production clamping, so that clamping's own deviation is mostly absorbed into Ŝ2 rather than left in θ_true.</text>
+  </g>
+</svg>

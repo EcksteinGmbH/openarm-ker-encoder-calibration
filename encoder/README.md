@@ -15,6 +15,7 @@ ATtiny1616 firmware. Reads a TLE5012B magnetic angle sensor over SSC and streams
 > | What it does and why | [`docs/protocol-spec.md`](docs/protocol-spec.md) |
 > | What was built, what it costs | [`CHANGELOG.md`](CHANGELOG.md) |
 > | How it cannot break an M5 | [`docs/compatibility-checklist.md`](docs/compatibility-checklist.md) |
+> | Building the bench and the station | [`docs/bench-and-station.md`](docs/bench-and-station.md) |
 > | Host tool for provisioning and calibration | [`tools/kercal/`](tools/kercal/) |
 > | Verification you can run yourself | [`test/run_tests.sh`](test/run_tests.sh) |
 >

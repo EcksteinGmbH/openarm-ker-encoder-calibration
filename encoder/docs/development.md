@@ -54,6 +54,7 @@ none of it should be.
 | `docs/protocol-spec.md` | the design. §12 is the decision log and the open questions |
 | `../CHANGELOG.md` | what was built, what it costs, every place the code departs from the spec |
 | `docs/compatibility-checklist.md` | 34 claims about not breaking an M5, each marked *desk* or *measured* |
+| `docs/bench-and-station.md` | how to build the bench and the calibration station, with diagrams |
 | `docs/timing-measurements.md` | the bench method and the empty results sheet |
 | `docs/station-reference-encoder.md` | the calibration station's reference chain and purchasing (Chinese) |
 | `docs/evidence/` | the reference implementation and every cited measurement, reproducible |
@@ -98,7 +99,7 @@ persistent-fault rule would pass readings through degraded. Nothing downstream w
 
 Test: flash one module, put it on a bench bus alone, `kercal info --id 31`. `cfg_verify.passed`
 must be true and `checks` must list all five. If `SFUSE_clear` is the only one missing, this is the
-failure mode.
+failure mode. Building that bench takes an afternoon: `bench-and-station.md` part 1.
 
 ### 4.2 O6 — field at the die
 
@@ -110,10 +111,13 @@ magnitude too early and `D_MAG` measures direction, not strength.
 which is a mechanical change. Without a probe, the O1 hysteresis curve below is a weak indirect
 indicator — see O6 for what it can and cannot tell you.
 
-### 4.3 O1 — the first ten units
+### 4.3 O1 — the first ten units, which needs the station
 
 Spec §12.2 O1, in its stated order. The first item, the clockwise-against-counter-clockwise curve,
 sets `HYST_MAX`, which is still the provisional 0.10°, and doubles as the indirect field check.
+
+This is the first step that needs the calibration station, which is a week of work and has to be
+commissioned before it may calibrate anything: `bench-and-station.md` part 2.
 
 ### 4.4 The bench sheet
 

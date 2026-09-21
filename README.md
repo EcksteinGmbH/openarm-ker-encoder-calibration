@@ -17,7 +17,8 @@
 > **Start at [`encoder/docs/development.md`](encoder/docs/development.md)** — setup, repository map,
 > where the work stands and what to do next. The design is
 > [`encoder/docs/protocol-spec.md`](encoder/docs/protocol-spec.md); what was built and what it costs
-> is [`encoder/CHANGELOG.md`](encoder/CHANGELOG.md).
+> is [`encoder/CHANGELOG.md`](encoder/CHANGELOG.md); how to build the bench and the calibration
+> station is [`encoder/docs/bench-and-station.md`](encoder/docs/bench-and-station.md).
 >
 > Questions about **this fork** belong in its own issue tracker, not in the upstream channels below.
 
