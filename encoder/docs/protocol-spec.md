@@ -298,13 +298,17 @@ from the user; **none of it has been measured yet**.
   its underside, no voltage regulator. The magnet therefore travels with the module, and a calibration
   can transfer from the station to the arm — provided the unit is calibrated assembled and never reopened
   (§7.2, D23).
-- **Magnet**: diametric cylinder **Ø3 × 3 mm** (was Ø3 × 2.5 mm; the pocket was deepened, so the magnet
-  face stays flush and the gap to the chip is unchanged; user, 2026-09-20). Grade unknown; BOM says N35.
-- **Field at the sensor**: estimated **23–32 mT** at the CAD-derived gap of 2.5–3.0 mm, before the
-  bearing's flux shunting — at or below the 30 mT the accuracy rows require. It falls ≈ 6.7 % per 0.1 mm
-  of gap; the in-specification window is only ≈ 0.7 mm wide. Below 30 mT Infineon adds 0.1–0.2° of error,
-  part of it hysteresis. **Measuring the field at the die position with the bearing in place is the
-  first bench item (O6).** The target is 40–50 mT.
+- **Magnet**: diametric cylinder **Ø3 × 3 mm**, grade **N52** (was Ø3 × 2.5 mm; the pocket was deepened,
+  so the magnet face stays flush and the gap to the chip is unchanged; user, 2026-09-20. Grade confirmed by
+  the user 2026-09-21; the BOM says N35, which is what the v6 figures were computed from).
+- **Field at the sensor**: estimated **28–39 mT** at the CAD-derived gap of 2.5–3.0 mm, before the
+  bearing's flux shunting. *(v6.1: the grade is N52, not the BOM's N35. Field scales with remanence, and
+  N52's 1.43–1.48 T against N35's 1.17–1.21 T is a factor of ≈ 1.22, so the v6 estimate of 23–32 mT
+  becomes 28–39 mT.)* That straddles the 30 mT the accuracy rows require rather than sitting below it —
+  better, but still not confirmed. It falls ≈ 6.7 % per 0.1 mm of gap; the in-specification window is only
+  ≈ 0.7 mm wide. Below 30 mT Infineon adds 0.1–0.2° of error, part of it hysteresis. **Measuring the field
+  at the die position with the bearing in place is still the first bench item (O6).** The target is
+  40–50 mT.
 - **Assembly error of an Ø3 mm magnet** is large — 0.15–1.5° in simulation for realistic tolerances, mostly
   H1 and H2, H3 ≤ 0.016°, H5 and above < 0.0002°. It is static and belongs to the unit, so six harmonics
   remove it with margin. Raw error of 2–3° is plausible; the format allows ± 5.6° per harmonic.
@@ -1642,9 +1646,28 @@ stream and name the channel (not on ch8/ch16, not with jump detection off). It w
 degraded angle through). Raised by the system-budget review (S1); **not adopted**; D18 stands until the
 user decides otherwise.
 
-**O6 — Field at the sensor.** Estimated 23–32 mT, unmeasured (§2.8). A Hall-probe reading at the die
-position with the bearing in place decides whether the gap should be reduced (≈ 2.0–2.2 mm) or the magnet
-grade raised (N48–N52) to reach 40–50 mT. Hardware only; no effect on the protocol or the firmware.
+**O6 — Field at the sensor.** Estimated 28–39 mT, unmeasured (§2.8). A Hall-probe reading at the die
+position with the bearing in place decides whether the gap should be reduced (≈ 2.0–2.2 mm) to reach
+40–50 mT. Hardware only; no effect on the protocol or the firmware.
+
+*(v6.1.)* Raising the grade is no longer an option: the magnet is **already N52**, the strongest commodity
+NdFeB grade. Gap is the only remaining lever, which makes the measurement more decisive, not less.
+
+**If no Hall probe is available.** A teslameter reading to ≈ 200 mT costs €30–60 and is the cheapest risk
+reduction in this project, because every accuracy figure in §7 assumes the die is inside its specified
+field. Two things that do **not** substitute for it:
+
+- *A phone magnetometer.* Those saturate at roughly 1–5 mT, two orders of magnitude below what is being
+  measured. It will read full scale and tell you nothing.
+- *`D_MAG`.* §2.8 already says why: it is the length of the GMR signal vector, and a saturated bridge
+  follows field direction, not strength. It shows a missing or grossly weak magnet and little else.
+
+What *can* be done without one is to measure the **consequence** instead of the cause. Infineon attributes
+0.1–0.2° of extra error below 30 mT, much of it hysteresis, so the clockwise-against-counter-clockwise
+curve of O1 — which the station has to produce anyway (§7.2, D24) — is an indirect indicator: a hysteresis
+half-difference near the 0.10° typical figure suggests the field is adequate, and one substantially worse
+points at the gap. It is weaker evidence than a direct reading and cannot separate a weak field from a
+mechanical cause, so it postpones O6 rather than closing it.
 
 ---
 
