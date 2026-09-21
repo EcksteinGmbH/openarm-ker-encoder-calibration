@@ -103,82 +103,150 @@ traceable** — every check compares the chain with itself.
 
 ![Station mechanical chain](img/station-chain.svg)
 
-The thing to understand before buying anything: **the unit under test is a sealed assembly with its
-own bearing** (§2.8). Its horn cannot be made rigid with the stage shaft, so the chain needs a
-second coupling. A station built on the assumption of one coupling — or worse, built to calibrate a
-bare PCB over a station magnet — measures the wrong object. Another magnet of the same type, or the
-same PCB re-seated by 0.1–0.2 mm, leaves 0.2–1.4° of error, which is no better than not calibrating
-at all (D23).
+One precision shaft carries both grating encoders between two bearing blocks. A coupling at each end
+isolates the stepper on one side and drives the unit's horn on the other.
+
+Two things to understand before buying anything:
+
+**The unit under test is a sealed assembly with its own bearing** (§2.8). Its horn cannot be made
+rigid with the shaft, so C2 is structural, not optional. A station built to calibrate a bare PCB
+over a station magnet measures the wrong object: another magnet of the same type, or the same PCB
+re-seated by 0.1–0.2 mm, leaves 0.2–1.4° of error, which is no better than not calibrating at all
+(D23).
+
+**Only C2 reaches `θ_true`.** C1's error never does — it sits between the stepper and the shaft,
+upstream of both encoders. So the coupling budget is not split evenly: C2 is an encoder-grade
+diaphragm coupling and C1 can be whatever holds.
 
 ### 2.3 Parts, and what actually matters about each
 
 | | Requirement | Why |
 |---|---|---|
-| **Reference encoder** | **solid shaft with its own bearings**; single-turn; 21–23 bit; Modbus-RTU over RS-485; rated ± 50″ | A hollow-shaft or kit encoder has no bearing of its own and breaks the method for H1 |
-| **C1, C2** | encoder-grade **diaphragm or flexure** couplings with a *stated* kinematic transfer error; torsional stiffness ≥ 150 N·m/rad | HEIDENHAIN K 14: ± 6″. A metal bellows: ± 40″. **No helical-beam couplings.** The simulation in §7.7 shows a bellows at C2 triples the low-order error *while still passing the commissioning criteria* — this is a purchasing requirement, not something the station can certify later |
-| **Stepper** | dual-shaft | one end to the reference, the other to the unit |
-| **Second USB–RS-485** | separate adapter for the reference | do not share the module's 2 Mbps bus |
-| **Dial indicator** | — | alignment: radial ≤ 0.05 mm, angular ≤ 0.05° |
+| **Grating encoders ×2** | through-bore, single-turn, 21–23 bit, Modbus-RTU over RS-485 | the near one defines `θ_true`, the far one is a permanent check — and with a through-bore reference the check is **required**, not optional (§2.6) |
+| **Precision shaft** | ground, h6 or better, **runout < 5 µm, measured after assembly** | this, not the encoder's data sheet, sets the installed accuracy — see below |
+| **Bearing blocks ×2** | straddling both encoders; nothing cantilevered | |
+| **Shaft clamping** | taper or expanding bushings | a set screw pushes the shaft off centre, and off centre is the whole problem |
+| **C2** | encoder-grade **diaphragm or flexure** coupling with a *stated* kinematic transfer error; ≥ 150 N·m/rad; **no helical-beam** | the only coupling in the `θ_true` path. HEIDENHAIN K 14: ± 6″; a metal bellows: ± 40″. §7.7's simulation shows a bellows here triples the low-order error *while still passing the commissioning criteria* — a purchasing requirement, not something the station can certify later |
+| **C1** | any decent flexure coupling | its error never reaches `θ_true` |
+| **Stepper** | **a single shaft is enough.** It sits at the end of the chain, not in the middle | the earlier topology needed a dual shaft; this one does not. Do not pay for step accuracy either — see below |
+| **Stepper driver** | automatic standstill current reduction must be **defeatable** | see §2.4 |
+| **Second USB–RS-485** | for the encoders' Modbus, separate from the module's 2 Mbps bus | |
+| **Dial indicator** | — | shaft runout, and alignment: radial ≤ 0.05 mm, angular ≤ 0.05° |
 | **Fixture** | locates the unit's **housing** repeatably | the housing is held; the horn is driven |
-| **Check standard** (recommended) | a second identical reference on its own coupling | read at every calibration; it is what detects drift, slip and coupling faults |
 | **Hall probe** | reads to ≈ 200 mT | O6. Not part of the chain, but the first bench item of all |
 
 Full selection record and prices: `station-reference-encoder.md`.
 
-### 2.4 Assembly order
+**Do not buy step accuracy.** The procedure never uses the stepper's position: `θ_true` is always
+the encoder reading. §7.2's positions are nominal targets, and §7.7's simulation deliberately
+scatters them by 0.03° rms. What matters in the motor is bearing quality and shaft runout, not
+microstep accuracy.
 
-1. Mount the stepper. Everything else is aligned to its shaft.
-2. Clamp the reference to C1 **and leave them clamped for good** — C1's transfer error then rotates
-   with the reference and is calibrated together with it. This pairing is remounted as one body.
-3. Mount reference + C1 on the stage-side hub. Align with the dial indicator: ≤ 0.05 mm radial,
+**Do buy shaft accuracy.** A through-bore encoder's quoted accuracy is its graduation under ideal
+mounting. Installed, its eccentricity `e` at grating radius `r` adds an H1 error of about `e/r`:
+
+> `e` = 10 µm at `r` = 25 mm → 10 µm / 25 mm = 4 × 10⁻⁴ rad ≈ **82 arcseconds**
+
+against a graduation figure of a few arcseconds. The order of magnitude the through-bore part wins
+on paper is lost immediately to a mediocre shaft. **Measure the runout with a dial indicator after
+assembly** — that number, not the data sheet, is what you have.
+
+### 2.4 Assembly, and two traps
+
+1. Mount the bearing blocks and the shaft first; everything else is aligned to it. Measure the
+   runout now.
+2. Clamp both encoders on the shaft, **90° apart** — see §2.6 for why that angle is not arbitrary.
+   Anchor each stator so it cannot creep.
+3. Fit C1 to the stepper, C2 to the far end. Align with the dial indicator: ≤ 0.05 mm radial,
    ≤ 0.05° angular.
-4. Mount C2 to the far shaft, and the fixture so that a unit's housing seats repeatably with its
-   horn in C2. Align again.
-5. Keep the whole thing away from steel and from the stepper's stray field, and **record the
-   station's orientation** — Earth's field alone is 0.095° of H1 error at 30 mT, and it belongs to
-   the world, not to the module (§2.8).
-6. Disable the stepper's hold-current reduction, or wait it out before every reading.
+4. Mount the fixture so a unit's housing seats repeatably with its horn in C2. Align again.
+5. Keep the whole thing away from steel, and **record the station's orientation** — Earth's field
+   alone is 0.095° of H1 error at 30 mT, and it belongs to the world, not to the module (§2.8).
 
-### 2.5 Incoming test of the reference — before it is trusted
+**Trap 1 — standstill current reduction.** Sampling takes 205 ms, during which the reference polls
+must be stationary to **3 arcseconds** (0.00083°). Many drivers drop to half current shortly after
+motion stops, and the shaft moves a little as they do — precisely while you are sampling. On a
+TMC2209/TMC5160, disable standstill and freewheel and hold full current; on a TB6600-style driver,
+set the half-current DIP off. An A4988 or DRV8825 has no such feature, which here is a virtue.
+Microstepping of 1/16 or 1/32 is worth having, not for accuracy but because a smoother approach
+rings less and settles sooner — and that cost is paid 512 times per unit.
+
+**Trap 2 — the stepper's own field.** A stepper is a permanent magnet and live coils, and the sensor
+it is pointed at measures field *direction*. Worse, the leakage field changes with coil current,
+which changes with microstep phase, which correlates with position — a systematic error that would
+be written into every calibration, and one the acceptance gate cannot see because both passes share
+it. Putting the stepper at the far end of the chain is the first defence. **Test it**: with the unit
+stationary, step the driver through microstep phases *without moving the shaft* (or energise and
+de-energise) and watch the module's reading. If it moves, lengthen the chain, shield, or de-energise
+during sampling — and if you de-energise, check that the shaft stays put.
+
+### 2.5 Incoming test of the encoders — before they are trusted
 
 Station software only; no extra instruments (§7.7):
 
 | Test | What it tells you |
 |---|---|
-| Hold a magnet to its housing while reading | any change means it is a **magnetic** encoder — not acceptable at a 72″ tolerance |
+| Hold a magnet to the housing while reading | any change means a **magnetic** encoder — not acceptable at a 72″ tolerance |
 | Static noise at 8 angles | the number the stationary-poll criterion is set against |
 | Repeatability, 16 positions × 10 turns | whether it returns to the same reading |
 | Reversal | its own hysteresis |
 | Fine scan, ≥ 1000 microsteps over a few degrees | **sub-divisional error** — and its period tells optical from magnetic. The 24″/15″ guarantee of §7.7 assumes this is ≤ 8″ |
 | 30-minute warm-up log | how long before it is stable |
 | Register width, latching, maximum baud | so the polling code is right |
+| **enc 1 against enc 2, one full turn** | they are on one rigid shaft and see the same mechanical angle, so their difference is the sum of their two errors. If they were independent, it is √2 × the single-unit error — the only direct estimate of installed accuracy you can get without a traceable instrument |
 
-### 2.6 Commissioning — once per station build
+### 2.6 Commissioning — and why it is not §7.7's procedure any more
 
-Repeat this whenever the reference, either coupling, or the fixture is disturbed.
+Repeat this whenever the shaft, either coupling, or the fixture is disturbed. One assembled unit is
+the **transfer artefact**; power it ≥ 30 minutes beforehand and keep `GET_ENV` index 0 within ± 2
+`TEMPR` counts (one count is 0.36 K) for the whole run.
 
-One assembled unit is the **transfer artefact**. Power it ≥ 30 minutes beforehand and keep
-`GET_ENV` index 0 within ± 2 `TEMPR` counts (one count is 0.36 K) for the whole run.
+**The change.** §7.7's set A re-clamps the reference at ten angles. That is fine for a solid-shaft
+encoder with its own bearings, whose error is a fixed curve being rotated. It is **not** fine for a
+through-bore encoder clamped on a shaft: every re-clamp changes its eccentricity, and the fit's
+assumption fails. This is what §7.7 meant by *"a hollow-shaft or kit encoder breaks the method for
+H1"*.
 
-![Commissioning order](img/commissioning-order.svg)
+*Measured* (`evidence/v7-throughbore/`, 200 simulated stations per row):
 
-Then run the joint fit of §7.7 — `evidence/v3-reference/ref_selfcal.py` is the reference
-implementation, and `kercal` carries the same procedure. Two criteria, both provisional until bench
-data exist:
+| Re-clamp error | ≈ eccentricity at r = 25 mm | §7.7's procedure, passes both criteria | B-only |
+|---|---|---|---|
+| 3″+2″ | 0.4 µm | 100 % | 100 % |
+| 8″+4″ | 1.0 µm | 93.5 % | 100 % |
+| 16″+8″ | 1.9 µm | **2.5 %** | 100 % |
+| 25″+12″ and worse | ≥ 3 µm | **0 %** | 100 % |
 
-- remount **reproducibility** ≤ **8″** rms, over all fitted turns, in H1–H3;
-- **check mounting** residual ≤ **12″** in H1–H7.
+**So: clamp the encoders once and never re-clamp them. Run set B only** — the horn re-clocked at
+eight angles (twelve is slightly better), out and back, on the one mounting. `R′` and `S2` can then
+not be separated, and do not need to be: production always runs on that mounting, and the fit
+absorbs their sum. `θ_true` comes out at **13.4″ median, 17.2″ worst**, of which **3.4″ median,
+6.5″ worst** can reach a module — flat against re-clamp error, and slightly *better* than §7.7's
+procedure even at zero clamp error.
 
-Read §7.7's second table before trusting a pass: the criteria do not separate good stations from
-faulty ones cleanly. What they do guarantee is that no station passing both had a `θ_true` error
-above ≈ 24″, or above ≈ 15″ in the harmonics that can reach a module — **provided C2 is an
-encoder-grade coupling and the reference's sub-divisional error is ≤ 8″**, neither of which the
-criteria can see. That is why §2.3 makes both a purchasing requirement.
+**What this gives up, and what covers it.** Nothing in a B-only commissioning can detect the
+reference's mounting shifting *afterwards* — the criteria were computed before it happened. A
+**1 µm shift triples the error that can reach a module** (H1–H6 from 3.4″ to 10.7″) while
+reproducibility and check both stay green.
+
+That is what the second encoder is for, and it is why it is a requirement here rather than a
+recommendation: two encoders on one rigid shaft see the same mechanical angle, so their difference
+is the only thing in the station that can notice one of them moving. **Read both at every
+calibration and log the difference.** Clock them 90° apart, or their sub-divisional errors may
+cancel in exactly the comparison that is meant to catch this.
+
+Criteria are unchanged and still provisional: reproducibility ≤ **8″** rms in H1–H3, check mounting
+≤ **12″** in H1–H7. Read §7.7's second table before trusting a pass — they do not separate good
+stations from faulty ones cleanly.
+
+> **Status.** This departs from the normative §7.7 and has not been independently verified. The
+> simulation is `evidence/v7-throughbore/reclamp_sweep.py` and can be re-run in a minute.
 
 ### 2.7 In production
 
-`θ_true = ψ − R̂′(ψ) + Ŝ2(ψ − γ_production)`, where `ψ` is the reference reading, `R̂′` the fitted
-reference-plus-C1 error, and `γ_production` the clocking of the production mounting.
+`θ_true = ψ − R̂′(ψ)`, where `ψ` is the near encoder's reading and `R̂′` the fitted curve — which
+now carries the reference's own error, its clamping, C2's mean transfer error and everything else
+fixed in that mounting. The far encoder is read at the same time and its difference from the near
+one logged against the commissioning value.
 
 ---
 

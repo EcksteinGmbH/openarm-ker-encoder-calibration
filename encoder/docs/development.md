@@ -85,6 +85,11 @@ What is known to work, because it was measured:
 
 What is **not** known: whether any of it behaves that way on a board.
 
+**The station is being built** (2026-09-21). Its topology changed to two through-bore grating
+encoders clamped on one precision shaft, which forced a change to the commissioning of §7.7 —
+`evidence/v7-throughbore/` has the simulation and `bench-and-station.md` part 2 the build. A stepper
+and driver are on order; nothing else is waiting on them.
+
 ## 4. What to do next, in order
 
 ### 4.1 `STAT.SFUSE` — one hour, one board, highest value
@@ -108,16 +113,19 @@ the only remaining lever. Needs a Hall probe (€30–60); a phone magnetometer 
 magnitude too early and `D_MAG` measures direction, not strength.
 
 **Do this before the assembly is frozen**, because the answer may be "reduce the gap to 2.0–2.2 mm",
-which is a mechanical change. Without a probe, the O1 hysteresis curve below is a weak indirect
-indicator — see O6 for what it can and cannot tell you.
+which is a mechanical change. There is no probe yet; until there is, the O1 hysteresis curve below is
+a weak indirect indicator — see O6 for what it can and cannot tell you.
 
 ### 4.3 O1 — the first ten units, which needs the station
 
 Spec §12.2 O1, in its stated order. The first item, the clockwise-against-counter-clockwise curve,
 sets `HYST_MAX`, which is still the provisional 0.10°, and doubles as the indirect field check.
 
-This is the first step that needs the calibration station, which is a week of work and has to be
-commissioned before it may calibrate anything: `bench-and-station.md` part 2.
+This is the first step that needs the calibration station, which has to be commissioned before it
+may calibrate anything: `bench-and-station.md` part 2. Note that a first, coarse version of this
+measurement needs neither the station nor a reference encoder — hysteresis is the difference between
+the two approach directions at the *same* position, so a repeatable hard stop is enough to learn
+whether it is near the 0.10° typical figure or much worse.
 
 ### 4.4 The bench sheet
 

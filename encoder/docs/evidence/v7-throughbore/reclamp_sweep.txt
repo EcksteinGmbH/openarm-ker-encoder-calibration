@@ -1,0 +1,74 @@
+Can the commissioning of spec section 7.7 survive a through-bore reference encoder?
+
+The station was redesigned around two through-bore grating encoders clamped on one
+precision shaft, because the through-bore parts available at this price are about an
+order of magnitude better on paper than the solid-shaft ones. Section 7.7 warns against
+exactly that ("a hollow-shaft or kit encoder breaks the method for H1"), and the warning
+is about REPEATABILITY, not accuracy: a clamped-on encoder's rotor-to-stator eccentricity
+is set by each clamping, and set A of the commissioning re-clamps the reference ten times.
+An eccentricity of e at grating radius r is an H1 error of about e/r -- 1 um at r = 25 mm
+is 8.25 arcsec, so a re-clamp repeatable to a few micrometres is already tens of arcsec.
+
+This sweeps that. Two procedures:
+
+  v6      set A (reference re-clamped at 10 angles, out and back) + set B (horn re-clocked)
+          -- exactly ref_selfcal.py, whose clamp=(h1,h2) IS the per-clamping error
+
+  B-only  the reference is clamped ONCE and never touched again; only the horn is
+          re-clocked. R' and S2 can then no longer be separated -- both sit in the psi
+          frame at a fixed gamma -- but production never needs them separately, because it
+          always runs on that one mounting. The fit absorbs their sum.
+
+200 stations per row. Errors are the half-range of theta_true at the horn on a
+production turn with a fresh, freshly fixtured unit, in arcsec. C1 40+20, C2 6+3,
+artefact drift 1 %, sub-divisional error 8 arcsec, C2 varies 30 % per fixturing.
+criteria: repro <= 8, check <= 12 arcsec.
+
+re-clamp error, as eccentricity at a 25 mm grating radius:
+      0 arcsec  =   0.00 um
+      3 arcsec  =   0.36 um      8 arcsec  =   0.97 um     16 arcsec  =   1.94 um     25 arcsec  =   3.03 um     40 arcsec  =   4.85 um
+     60 arcsec  =   7.27 um     90 arcsec  =  10.91 um
+
+PROCEDURE v6 -- set A re-clamps the reference 10 times, out and back, + set B
+re-clamp H1+H2 (arcsec)         after med/max  H1-6 med/max  repro  check pass both     worst passing
+clamp 0+0                         14.3/  18.8    4.8/   8.5    2.3    2.1   100.0%     18.8 /   8.5
+clamp 3+2                         14.4/  18.3    4.7/   9.2    2.9    3.5   100.0%     18.3 /   9.2
+clamp 8+4                         14.6/  20.3    5.1/  11.2    4.7    8.4    93.5%     20.3 /  11.2
+clamp 16+8                        16.0/  23.6    7.0/  14.5    8.5   16.8     2.5%     17.6 /   8.4
+clamp 25+12                       18.4/  27.2    9.5/  18.2   12.8   26.1     0.0%      nan /   nan
+clamp 40+20                       23.1/  33.4   14.4/  24.6   20.5   41.9     0.0%      nan /   nan
+clamp 60+30                       29.7/  41.6   21.2/  33.1   30.5   62.5     0.0%      nan /   nan
+clamp 90+45                       39.2/  53.9   31.2/  45.8   45.8   93.7     0.0%      nan /   nan
+
+PROCEDURE B-only -- reference clamped once; 8 horn clockings, out and back
+re-clamp H1+H2 (arcsec)         after med/max  H1-6 med/max  repro  check pass both     worst passing
+clamp 0+0                         13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+clamp 3+2                         13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+clamp 8+4                         13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+clamp 16+8                        13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+clamp 25+12                       13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+clamp 40+20                       13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+clamp 60+30                       13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+clamp 90+45                       13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+
+PROCEDURE B-only, denser -- 12 horn clockings, out and back
+re-clamp H1+H2 (arcsec)         after med/max  H1-6 med/max  repro  check pass both     worst passing
+clamp 0+0                         12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+clamp 3+2                         12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+clamp 8+4                         12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+clamp 16+8                        12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+clamp 25+12                       12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+clamp 40+20                       12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+clamp 60+30                       12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+clamp 90+45                       12.9/  16.7    3.3/   5.8    3.0    2.1   100.0%     16.7 /   5.8
+
+What B-only gives up: the reference mounting shifts AFTER commissioning.
+Nothing in the commissioning can see this -- the criteria are computed before it
+happens. Only the second encoder can, by disagreeing with the first.
+post-commissioning shift           after med/max  H1-6 med/max  repro  check pass both     worst passing
+shift 0+0  (0.0 um)               13.4/  17.2    3.4/   6.5    3.3    2.5   100.0%     17.2 /   6.5
+shift 3+2  (0.4 um)               15.1/  19.5    5.5/   9.9    3.3    2.5   100.0%     19.5 /   9.9
+shift 8+4  (1.0 um)               20.1/  23.6   10.7/  15.9    3.3    2.5   100.0%     23.6 /  15.9
+shift 16+8  (1.9 um)              29.3/  33.6   20.1/  26.2    3.3    2.5   100.0%     33.6 /  26.2
+shift 25+12  (3.0 um)             39.4/  44.8   30.7/  37.5    3.3    2.5   100.0%     44.8 /  37.5
+shift 40+20  (4.8 um)             57.6/  64.6   49.5/  57.4    3.3    2.5   100.0%     64.6 /  57.4

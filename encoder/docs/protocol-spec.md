@@ -24,6 +24,7 @@ they depend on. CMD=0/1/2 wire format, reply semantics and chain timing are unch
 | v4 | `reviews/2026-09-19-spec-v4-verification.md` | REVISE (narrow): 0 blocker, 1 major, 14 minor |
 | v5 | `reviews/2026-09-19-spec-v5-verification.md` | ACCEPT WITH MINOR CHANGES: 0 blocker, 0 major; minors fixed in this document — `…-spec-v5-review-response.md` |
 | v6 | `reviews/2026-09-20-accuracy-review-*.md` (three perspectives: sensor physics, station metrology, system budget) | 5 blocker, 18 major, 10 minor — none against the protocol, the USERROW layout or the M5. Synthesis and response: `…-accuracy-review-synthesis.md`, `…-accuracy-review-response.md` |
+| v6.2 | — | 2026-09-21: the station was rebuilt around two through-bore grating encoders on one precision shaft. §7.7 gains a marked subsection: set A cannot be run on a clamped-on reference, set B alone is measured to be better and immune to re-clamping, and the second encoder becomes a requirement. Not yet verified and not yet normative; the build guide is `bench-and-station.md` |
 | v6.1 | `reviews/2026-09-21-firmware-review.md` | 2026-09-21: approved and implemented (firmware 1.0.0). Independent firmware review: REQUEST CHANGES, 0 blocker, 3 major, 7 minor — all three majors were conformance defects in the code, not the spec, and are fixed; response `…-firmware-review-response.md`. Three sections corrected against the built firmware: §6.2 (configuration-lock clock count), §10 (measured resources — the estimate was low), §11.1 (one extra term in `main.cpp`'s read condition). Nothing normative changed: no subcommand, record, USERROW field, wire format or arithmetic |
 | v6, verification | `reviews/2026-09-20-spec-v6-verification.md` | REVISE (narrow): 0 blocker, 2 major, 6 minor — both majors in the §7.7 commissioning simulation; firmware- and protocol-relevant content verified. Fixed in this document — `…-spec-v6-verification-response.md`. Re-verification `…-spec-v6-reverification.md`: **ACCEPT WITH MINOR CHANGES**, 0 blocker, 0 major, 3 minor (wording), fixed here |
 
@@ -1271,6 +1272,39 @@ chart. Until the second exists, `R_MAX` is stated as "relative to the station re
 The station review's budget for an accepted grade-A module, absolute, at station conditions: ≈ 0.04–0.05°
 with the reference as bought; ≈ 0.025–0.03° with the procedure above.
 
+**A through-bore reference changes this procedure** *(v6.2, 2026-09-21; not yet independently
+verified, not yet normative)*. The station was rebuilt around two **through-bore** grating encoders
+clamped on one precision shaft, because the through-bore parts available at this price are about an
+order of magnitude better on paper. The topology above becomes
+
+```
+stepper ── C1 ── [ one precision shaft, two bearing blocks ] ── C2 ── horn of the unit    housing fixed
+                        ↑ enc 1, the check       ↑ enc 2, defines ψ
+```
+
+— two couplings rather than two plus a dual-shaft motor, and **only C2 reaches `θ_true`**. The
+warning in the table above still holds and is the reason this matters: a clamped-on encoder's
+eccentricity is set by each clamping, so **set A cannot be run**. Eccentricity `e` at grating radius
+`r` is an H1 error of about `e/r`; at `r` = 25 mm, 1 µm is 8.25″.
+
+*Measured* (`evidence/v7-throughbore/reclamp_sweep.py` → `reclamp_sweep.txt`, 200 stations per row,
+on the `GOOD` station above): §7.7's procedure passes both criteria on 93.5 % of stations at a
+re-clamp error of 8″+4″ (≈ 1 µm), **2.5 % at 16″+8″** and none above. **Set B alone** — the reference
+clamped once, only the horn re-clocked — is flat against re-clamp error at every level tested, giving
+`θ_true` 13.4″ median / 17.2″ worst, of which 3.4″ / 6.5″ in H1–H6: slightly *better* than §7.7's
+procedure even at zero clamp error, because set A's twenty-one extra turns each carry a fresh
+clamping error into the fit. `R′` and `S2` are then inseparable and need not be separated, since
+production always runs on that one mounting.
+
+What set B alone gives up is detection of the mounting shifting *afterwards*: a 1 µm shift takes the
+H1–H6 error from 3.4″ to 10.7″ while reproducibility and the check mounting both stay green, because
+those are properties of the commissioning run and not of the station after it. This turns the check
+standard from a recommendation into a **requirement** — two encoders on one rigid shaft see the same
+mechanical angle, so their difference is the only thing that can notice one of them moving. They are
+clocked 90° apart so that their sub-divisional errors cannot cancel in that comparison.
+
+The practical build is `bench-and-station.md` part 2.
+
 ### 7.8 What the accuracy figures mean
 
 | Figure | What it is | Status |
@@ -1684,6 +1718,7 @@ Paths relative to `encoder/docs/`. Python runs in `encoder/.venv` (`encoder/requ
 | §7.1 rounding to 8 LSB; §11.2 item 7 | `../v5-accuracy-review-scripts/system_float32_unwrap_drift.py` (review), `../v5-accuracy-review-scripts/author_s3_check.py` with `ref_comp_mutant_noround.c.txt` (mutant C) → `…/results/` |
 | §2.8, §7.7, §7.8, §8.5 figures taken from the accuracy reviews | `evidence/v5-accuracy-review-scripts/physics_magnet_model.py` → `physics_magnet_model.txt` beside it; `{station_*,system_*}.py` → `…/results/` |
 | v6 verification | `evidence/v6-verification-scripts/` → `…/results/` |
+| §7.7 through-bore reference, re-clamp sweep and set-B-only | `evidence/v7-throughbore/reclamp_sweep.py` → `reclamp_sweep.txt`, `README.md` |
 | §7.2 station procedure and its operating characteristic | `station_fit.py` → `results/station_fit.txt`; `station_sim.py`, `batch.c` → `results/station_oc_K1024{,_drift0.01,_N64}.txt`, `results/station_oc_K256.txt` |
 | §7.5 realistic / constructed worst case / ceiling | `acc.c` → `results/accuracy_host.txt`; `../v3-review-scripts/construct.c` → `results/accuracy_constructed_worst.txt`; `../v3-review-scripts/worstterm.c` \| `ceiling.py` → `results/accuracy_analytic_ceiling.txt` |
 | §11.2 AVR differential, mutants, seam coverage | `diff_main.c`, `ref_comp_mutant_{int16,uncal}.c.txt` → `results/{host,avr,host_mutant_*,avr_mutant_*}.txt`; `seam_check.c` → `results/diff_sets_seam_coverage.txt` |
